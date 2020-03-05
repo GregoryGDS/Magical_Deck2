@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Cards index{% endblock %}
+
+{% block body %}
+    <h1>Cards index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>HP</th>
+                <th>Attack</th>
+                <th>Shield</th>
+                <th>Cost</th>
+                <th>Creator</th>
+                <th>Type</th>
+                <th>Faction</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for card in cards %}
+            <tr>
+                <td>{{ card.id }}</td>
+                <td>{{ card.name }}</td>
+                <td>{{ card.description }}</td>
+                <td>{{ card.HP }}</td>
+                <td>{{ card.attack }}</td>
+                <td>{{ card.shield }}</td>
+                <td>{{ card.cost }}</td>
+                <td>{{ card.getIdCreator.firstName }}</td>
+                <td>{{ card.getIdType.name }}</td>
+                <td>{{ card.getIdFaction.name }}</td>
+
+                <td>
+                    <a href="{{ path('cards_show', {'id': card.id}) }}">show</a>
+                    <a href="{{ path('cards_edit', {'id': card.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('create-card') }}">Create new</a>
+{% endblock %}
