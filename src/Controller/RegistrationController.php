@@ -26,7 +26,7 @@ class RegistrationController extends AbstractController
             // encode the plain password
             $createdDate = date('Y-m-d H:i:s');
             $user->setCreatedDate(new \DateTime($createdDate));
-            dd($form);
+
             $user->setPassword(
                 $passwordEncoder->encodePassword(
                     $user,
