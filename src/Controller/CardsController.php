@@ -57,12 +57,13 @@ class CardsController extends AbstractController
         }
 
         return $this->render('form/Form.html.twig', [
+            'title' => 'card',
             'form' => $form->createView(),
         ]);
     }
 
     /**
-     * @Route("/card/{id}", name="cards_show", methods={"GET"})
+     * @Route("/show-card/{id}", name="show-card", methods={"GET"})
      */
     public function show(Cards $card): Response
     {

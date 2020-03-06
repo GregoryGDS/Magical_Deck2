@@ -7,7 +7,7 @@ use App\Entity\{Cards,Types,Factions};
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\{IntegerType,TextType,EmailType,RepeatedType,CheckboxType,PasswordType,SubmitType};
+use Symfony\Component\Form\Extension\Core\Type\{IntegerType,TextType,TextareaType,EmailType,RepeatedType,CheckboxType,PasswordType,SubmitType};
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class CardsType extends AbstractType
@@ -18,20 +18,23 @@ class CardsType extends AbstractType
             ->add('name', TextType::class,[
                 'label' => 'Nom de la carte : ',
             ])
-            ->add('description', TextType::class,[
-                'label' => 'Description de la carte : ',
+            ->add('description', TextareaType::class,[
+                'label' => 'Description de la carte : '
             ])
             ->add('HP', IntegerType::class,[
                 'label' => 'Nombre de pv : ',
+                'required' => false
             ])
             ->add('attack', IntegerType::class,[
                 'label' => 'Attaque : ',
+                'required' => false
             ])
             ->add('shield', IntegerType::class,[
                 'label' => 'Armure/Défense : ',
+                'required' => false
             ])
             ->add('cost', IntegerType::class,[
-                'label' => 'Coût de la carte : ',
+                'label' => 'Coût de la carte : '
             ])
             
             ->add('id_type', EntityType::class, [

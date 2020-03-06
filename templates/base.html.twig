@@ -2,12 +2,52 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <title>{% block title %}Magical Deck{% endblock %}</title>
+        <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css"
+          integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy"
+          crossorigin="anonymous">
+
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        
+        {#<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js%22%3E%3E"></script>#}
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
         {% include "home/navbar.html.twig" %}
         {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+
+        <div id="pageContent"> 
+        </div>
+
+        {% block javascripts %}
+            <script>
+            $('nav a').click(function (e) {
+                e.preventDefault();
+                $('nav a').removeClass('active');
+                $(this).addClass('active');
+                $("#pageContent").load($(this).attr('href'));
+            });
+
+            $('#pageContent').on('submit', 'form', function (e) {
+                e.preventDefault();
+                var form = $(this);
+                $.ajax({
+                type: "POST",
+                url: form.attr('action'),
+                data: new FormData(this),
+                contentType : false,
+                processData: false,
+                success: function success(response) {
+                    console.log('ok');
+                    $("#pageContent").load($('.active').attr('href'));
+                },error:function(err){
+                    console.log('nok');
+                }
+            });
+
+            });    
+            </script>
+        {% endblock %}
     </body>
 </html>
