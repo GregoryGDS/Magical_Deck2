@@ -53,6 +53,7 @@ class FactionController extends AbstractController
 
         }
         return $this->render('form/Form.html.twig', [
+            'title' => 'faction',
             'form' => $form->createView(),
         ]);
     }

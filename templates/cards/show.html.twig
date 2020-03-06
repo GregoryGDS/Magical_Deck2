@@ -12,6 +12,14 @@
                 <td>{{ card.id }}</td>
             </tr>
             <tr>
+                <th>Name</th>
+                <td>{{ card.name }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ card.description }}</td>
+            </tr>
+            <tr>
                 <th>HP</th>
                 <td>{{ card.HP }}</td>
             </tr>
@@ -24,17 +32,25 @@
                 <td>{{ card.shield }}</td>
             </tr>
             <tr>
-                <th>Name</th>
-                <td>{{ card.name }}</td>
-            </tr>
-            <tr>
                 <th>Cost</th>
                 <td>{{ card.cost }}</td>
+            </tr>
+            <tr>
+                <th>Creator</th>
+                <td>{{ card.getIdCreator.firstName }} {{ card.getIdCreator.lastName }}</td>
+            </tr>
+            <tr>
+                <th>Type</th>
+                <td>{{ card.getIdType.name }}</td>
+            </tr>
+            <tr>
+                <th>Faction</th>
+                <td>{{ card.getIdFaction.name }}</td>
             </tr>
         </tbody>
     </table>
 
-    <a href="{{ path('cards_index') }}">back to list</a>
+    <a href="{{ path('list-card') }}">back to list</a>
 
     <a href="{{ path('cards_edit', {'id': card.id}) }}">edit</a>
 
