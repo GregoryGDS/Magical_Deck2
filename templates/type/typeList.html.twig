@@ -10,9 +10,10 @@
     <h1>Liste des types</h1>
     <ul>
         {# légèrement différent de php avec foreach editorList as editor #}
-        {% for  entity in entities %}
+        {% for entity in entities %}
             <li>
                 {{ entity.name}}
+                <input type='color' value="{{ entity.cardColor}}" disabled>
                 {#<a href="{{ path('detail-editor',{'idEditor': editor.id})}}">Détails</a>#}
             </li>
         {% endfor %}
