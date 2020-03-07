@@ -21,23 +21,25 @@
                 <td>
                     <div class="card" style="background-color:{{ card.idType.cardColor }}">
                         <div class="cardHeader" >
-                            <span>{{ card.name }}</span>
                             <span class="cardNumber" style="background-color:blue">{{ card.cost }}</span>
-
+                            <span>{{ card.name }}</span>
                         </div>
                         <div class="cardImage" style="background-image:url('{{ asset('uploads/images/cards/' ~ card.image) }}');" >
                         </div>
                         <div class="cardBody">
-                            <div>{{ card.idType.name }}/{{ card.idFaction.name }}</div>{#symfony concidère qu'on fait un getIdCreator #}
+                            <div>{{ card.idType.name }}/{{ card.idFaction.name }}</div>{#symfony considère qu'on fait un getIdCreator #}
                             <div>{{ card.description }}</div>
                         </div>
                         <div class="cardFooter">
+                        {% if card.attack is not null or card.hp is not null or card.shield is not null %}
                             <div class="cardNumber" style="background-color:red">{{ card.attack }}</div>
+                            <span class="cardNumber" style="background-color:pink">{{ card.hp }}</span>
                             <div class="cardNumber" style="background-color:green">{{ card.shield }}</div>
+                        {% endif %}
                         </div>
                     </div>
                 </td>
-                <td>{{ card.idCreator.firstName }}</td> {#symfony concidère qu'on fait un getIdCreator #}
+                <td>{{ card.idCreator.firstName }}</td>
                 <td>{{ card.idType.name }}</td>
                 <td>{{ card.idFaction.name }}</td>
 
