@@ -2,8 +2,8 @@
     <h1>Create {{title}}</h1>
     <div class="row">
         <div class="col">
-            {{ form_start(form, {'action': path(app.request.attributes.get('_route')), 'method': 'POST', 'enctype':'multipart/form-data'
-}) }}{# 'enctype':'multipart/form-data'=> capable de prendre fichier binary#}
+            {{ form_start(form, {'action': path(app.request.attributes.get('_route')), 'method': 'POST', 'enctype':'multipart/form-data'}) }}
+            {# 'enctype':'multipart/form-data'=> capable de prendre fichier binary#}
             {{ form_row(form.name) }}
             {{ form_end(form) }}
 

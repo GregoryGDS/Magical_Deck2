@@ -9,8 +9,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 class CardsController extends AbstractController
 {
@@ -45,10 +45,20 @@ class CardsController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            //$cards=$this->entityManager->getRepository(Cards::class)->findAll();
 
             $id_user = $this->getUser();
             $card->setIdCreator($id_user);
+
+            $image = $form->get('image')->getData();
+
+            $date_format =  date('Y-m-d-H-i-s');
+            $date = new DateTime($date_format);
+            $image_name = 'card-'.uniqid().'-'.$date->format.'.'.$image->guessExtension();
+            $image->move(
+                    $this->getParameter('cards_folder'),
+                    $image_name
+            );
+            $card->setImage($image_name);
 
             $this->entityManager->persist($card);
             $this->entityManager->flush();

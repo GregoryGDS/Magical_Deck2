@@ -7,13 +7,8 @@
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Name</th>
-                <th>Description</th>
-                <th>HP</th>
-                <th>Attack</th>
-                <th>Shield</th>
-                <th>Cost</th>
-                <th>Creator</th>
+                <th>Images</th>
+                <th>Créateur</th>
                 <th>Type</th>
                 <th>Faction</th>
                 <th>Actions</th>
@@ -23,15 +18,28 @@
         {% for card in cards %}
             <tr>
                 <td>{{ card.id }}</td>
-                <td>{{ card.name }}</td>
-                <td>{{ card.description }}</td>
-                <td>{{ card.HP }}</td>
-                <td>{{ card.attack }}</td>
-                <td>{{ card.shield }}</td>
-                <td>{{ card.cost }}</td>
-                <td>{{ card.idCreator.firstName }}</td>
-                <td>{{ card.getIdType.name }}</td>
-                <td>{{ card.getIdFaction.name }}</td>
+                <td>
+                    <div class="card" style="background-color:{{ card.idType.cardColor }}">
+                        <div class="cardHeader" >
+                            <span>{{ card.name }}</span>
+                            <span class="cardNumber" style="background-color:blue">{{ card.cost }}</span>
+
+                        </div>
+                        <div class="cardImage" style="background-image:url('{{ asset('uploads/images/cards/' ~ card.image) }}');" >
+                        </div>
+                        <div class="cardBody">
+                            <div>{{ card.idType.name }}/{{ card.idFaction.name }}</div>{#symfony concidère qu'on fait un getIdCreator #}
+                            <div>{{ card.description }}</div>
+                        </div>
+                        <div class="cardFooter">
+                            <div class="cardNumber" style="background-color:red">{{ card.attack }}</div>
+                            <div class="cardNumber" style="background-color:green">{{ card.shield }}</div>
+                        </div>
+                    </div>
+                </td>
+                <td>{{ card.idCreator.firstName }}</td> {#symfony concidère qu'on fait un getIdCreator #}
+                <td>{{ card.idType.name }}</td>
+                <td>{{ card.idFaction.name }}</td>
 
                 <td>
                     <a href="{{ path('show-card', {'id': card.id}) }}">show</a>
