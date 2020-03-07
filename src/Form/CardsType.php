@@ -7,7 +7,7 @@ use App\Entity\{Cards,Types,Factions};
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\{IntegerType,TextType,TextareaType,EmailType,RepeatedType,CheckboxType,PasswordType,SubmitType};
+use Symfony\Component\Form\Extension\Core\Type\{FileType,IntegerType,TextType,TextareaType,EmailType,RepeatedType,CheckboxType,PasswordType,SubmitType};
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class CardsType extends AbstractType
@@ -17,6 +17,9 @@ class CardsType extends AbstractType
         $builder
             ->add('name', TextType::class,[
                 'label' => 'Nom de la carte : ',
+            ])
+            ->add('image', FileType::class,[
+                'label' => 'Image de la carte : ',
             ])
             ->add('description', TextareaType::class,[
                 'label' => 'Description de la carte : '

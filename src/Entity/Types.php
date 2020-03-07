@@ -28,6 +28,11 @@ class Types
      */
     private $listCards;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=false)
+     */
+    private $cardColor;
+
     public function __construct()
     {
         $this->listCards = new ArrayCollection();
@@ -77,6 +82,18 @@ class Types
                 $listCard->setIdType(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCardColor(): ?string
+    {
+        return $this->cardColor;
+    }
+
+    public function setCardColor(?string $cardColor): self
+    {
+        $this->cardColor = $cardColor;
 
         return $this;
     }

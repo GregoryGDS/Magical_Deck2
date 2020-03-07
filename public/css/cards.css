@@ -1,0 +1,45 @@
+.card {
+    width:300px;
+    height:400px;
+    border-radius:20px;
+    border:1px solid black;
+    box-shadow:0px 0px 10px #ccc;
+    text-align:center;
+    color:white;
+    padding: 2%;
+    border-width: initial;
+    /*au cas où l'image est full art*/
+    background-position: center center;   
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.cardHeader {
+    height:50px;
+}
+.cardHeader span {
+    line-height:50px;
+}
+.cardImage {
+    width:250px;
+    height:250px;
+    margin:20px auto;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border:1px solid black;
+    border-width: initial;
+}
+.cardFooter {
+    display:flex;
+    flex-direction:row;
+    justify-content: space-around;
+}
+.cardNumber {
+    background-color:white;
+    border-radius:50%;
+    width:50px;
+    height:50px;
+    text-align:center;
+    line-height:50px;
+    float:left;
+}
