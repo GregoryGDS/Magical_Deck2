@@ -1,0 +1,106 @@
+<?php
+
+namespace App\Controller;
+
+use App\Entity\Decks;
+use App\Form\DecksType;
+use App\Repository\DecksRepository;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+use Doctrine\ORM\EntityManagerInterface;
+
+
+class DecksController extends AbstractController
+{
+
+    private $DecksRepository;
+    private $entityManager;
+
+    public function __construct(DecksRepository $DecksRepository,EntityManagerInterface $entityManager){
+        $this->DecksRepository = $DecksRepository;
+        $this->entityManager = $entityManager;
+    }
+
+
+    /**
+     * @Route("/list-deck", name="list-deck", methods={"GET"})
+     */
+    public function index(): Response
+    {
+        $id_user = $this->getUser();
+        $deckList = $this->DecksRepository->findBy(array('idUser'=>$id_user));
+        return $this->render('decks/decksList.html.twig', [
+        'decks' => $deckList,
+        ]);
+    }
+
+    /**
+     * @Route("/create-deck", name="create-deck", methods={"GET","POST"})
+     */
+    public function new(Request $request): Response
+    {
+        $deck = new Decks();
+        $form = $this->createForm(DecksType::class, $deck);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $id_user = $this->getUser();
+            $deck->setIdUser($id_user);
+
+            $this->entityManager->persist($deck);
+            $this->entityManager->flush();
+
+            return $this->redirectToRoute('list-deck');
+        }
+
+        return $this->render('form/Form.html.twig', [
+            'title' => 'deck',
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("show-deck/{id}", name="show-deck", methods={"GET"})
+     */
+    public function show(Decks $deck): Response
+    {
+        return $this->render('decks/show.html.twig', [
+            'deck' => $deck,
+        ]);
+    }
+
+    /**
+     * @Route("edit-deck/{id}", name="edit-deck", methods={"GET","POST"})
+     */
+    public function edit(Request $request, Decks $deck): Response
+    {
+        $form = $this->createForm(DecksType::class, $deck);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('deck_index');
+        }
+
+        return $this->render('decks/edit.html.twig', [
+            'deck' => $deck,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/{id}", name="deck_delete", methods={"DELETE"})
+     */
+    public function delete(Request $request, Decks $deck): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$deck->getId(), $request->request->get('_token'))) {
+            $this->entityManager->remove($deck);
+            $this->entityManager->flush();
+        }
+
+        return $this->redirectToRoute('deck_index');
+    }
+}

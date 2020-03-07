@@ -1,0 +1,35 @@
+
+<title>Decks index</title>
+
+<h1>Decks index</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Nom</th>
+            <th>Créateur</th>
+            <th>actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for deck in decks %}
+        <tr>
+            <td>{{ deck.id }}</td>
+            <td>{{ deck.name }}</td>
+            <td>{{ deck.idUser.firstName }}</td>
+            <td>
+                <a href="{{ path('show-deck', {'id': deck.id}) }}">show</a>
+                <a href="{{ path('edit-deck', {'id': deck.id}) }}">edit</a>
+            </td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="3">Vous n'avez pas de deck :/</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<a href="{{ path('create-deck') }}">Create new</a>
+
