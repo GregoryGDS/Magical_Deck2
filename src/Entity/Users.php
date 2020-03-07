@@ -57,10 +57,16 @@ class Users implements UserInterface
      */
     private $createdDate;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Decks", mappedBy="idUser", orphanRemoval=true)
+     */
+    private $listDecks;
+
     public function __construct()
     {
         $this->listCards = new ArrayCollection();
         $this->roles = ['ROLE_USER'];
+        $this->listDecks = new ArrayCollection();
 
     }
 
@@ -205,6 +211,37 @@ class Users implements UserInterface
     public function setCreatedDate(\DateTimeInterface $createdDate): self
     {
         $this->createdDate = $createdDate;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Decks[]
+     */
+    public function getListDecks(): Collection
+    {
+        return $this->listDecks;
+    }
+
+    public function addListDeck(Decks $listDecks): self
+    {
+        if (!$this->listDecks->contains($listDecks)) {
+            $this->listDecks[] = $listDecks;
+            $listDecks->setIdUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeListDeck(Decks $listDecks): self
+    {
+        if ($this->listDecks->contains($listDecks)) {
+            $this->listDecks->removeElement($listDecks);
+            // set the owning side to null (unless already changed)
+            if ($listDecks->getIdUser() === $this) {
+                $listDecks->setIdUser(null);
+            }
+        }
 
         return $this;
     }

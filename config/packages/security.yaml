@@ -39,6 +39,7 @@ security:
     access_control:
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }        
         - { path: ^/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/list-card, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/create-type, roles: ROLE_ADMIN } 
         - { path: ^/create-faction, roles: ROLE_ADMIN }    
         - { path: ^/, roles: ROLE_USER }

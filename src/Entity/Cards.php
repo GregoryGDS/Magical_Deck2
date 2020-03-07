@@ -69,6 +69,11 @@ class Cards
      */
     private $image;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\CardDeck", inversedBy="idCard")
+     */
+    private $cardDeck;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -190,6 +195,18 @@ class Cards
     public function setImage(string $image): self
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    public function getCardDeck(): ?CardDeck
+    {
+        return $this->cardDeck;
+    }
+
+    public function setCardDeck(?CardDeck $cardDeck): self
+    {
+        $this->cardDeck = $cardDeck;
 
         return $this;
     }

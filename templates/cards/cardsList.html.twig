@@ -1,59 +1,59 @@
 
 <title>Cards index</title>
 
-    <h1>Cards index</h1>
+<h1>Cards index</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Images</th>
-                <th>Créateur</th>
-                <th>Type</th>
-                <th>Faction</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for card in cards %}
-            <tr>
-                <td>{{ card.id }}</td>
-                <td>
-                    <div class="card" style="background-color:{{ card.idType.cardColor }}">
-                        <div class="cardHeader" >
-                            <span class="cardNumber" style="background-color:blue">{{ card.cost }}</span>
-                            <span>{{ card.name }}</span>
-                        </div>
-                        <div class="cardImage" style="background-image:url('{{ asset('uploads/images/cards/' ~ card.image) }}');" >
-                        </div>
-                        <div class="cardBody">
-                            <div>{{ card.idType.name }}/{{ card.idFaction.name }}</div>{#symfony considère qu'on fait un getIdCreator #}
-                            <div>{{ card.description }}</div>
-                        </div>
-                        <div class="cardFooter">
-                        {% if card.attack is not null or card.hp is not null or card.shield is not null %}
-                            <div class="cardNumber" style="background-color:red">{{ card.attack }}</div>
-                            <span class="cardNumber" style="background-color:pink">{{ card.hp }}</span>
-                            <div class="cardNumber" style="background-color:green">{{ card.shield }}</div>
-                        {% endif %}
-                        </div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Images</th>
+            <th>Créateur</th>
+            <th>Type</th>
+            <th>Faction</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for card in cards %}
+        <tr>
+            <td>{{ card.id }}</td>
+            <td>
+                <div class="card" style="background-color:{{ card.idType.cardColor }}">
+                    <div class="cardHeader" >
+                        <span class="cardNumber" style="background-color:blue">{{ card.cost }}</span>
+                        <span>{{ card.name }}</span>
                     </div>
-                </td>
-                <td>{{ card.idCreator.firstName }}</td>
-                <td>{{ card.idType.name }}</td>
-                <td>{{ card.idFaction.name }}</td>
+                    <div class="cardImage" style="background-image:url('{{ asset('uploads/images/cards/' ~ card.image) }}');" >
+                    </div>
+                    <div class="cardBody">
+                        <div>{{ card.idType.name }}/{{ card.idFaction.name }}</div>{#symfony considère qu'on fait un getIdCreator #}
+                        <div>{{ card.description }}</div>
+                    </div>
+                    <div class="cardFooter">
+                    {% if card.attack is not null or card.hp is not null or card.shield is not null %}
+                        <div class="cardNumber" style="background-color:red">{{ card.attack }}</div>
+                        <span class="cardNumber" style="background-color:pink">{{ card.hp }}</span>
+                        <div class="cardNumber" style="background-color:green">{{ card.shield }}</div>
+                    {% endif %}
+                    </div>
+                </div>
+            </td>
+            <td>{{ card.idCreator.firstName }}</td>
+            <td>{{ card.idType.name }}</td>
+            <td>{{ card.idFaction.name }}</td>
 
-                <td>
-                    <a href="{{ path('show-card', {'id': card.id}) }}">show</a>
-                    <a href="{{ path('cards_edit', {'id': card.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="7">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            <td>
+                <a href="{{ path('show-card', {'id': card.id}) }}">show</a>
+                <a href="{{ path('cards_edit', {'id': card.id}) }}">edit</a>
+            </td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="7">no records found</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
 
-    <a href="{{ path('create-card') }}">Create new</a>
+<a href="{{ path('create-card') }}">Create new</a>

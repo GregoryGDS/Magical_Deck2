@@ -53,6 +53,7 @@ class CardsController extends AbstractController
 
             $date_format =  date('Y-m-d-H-i-s');
             $date = new DateTime($date_format);
+            
             $image_name = 'card-'.uniqid().'-'.$date->format.'.'.$image->guessExtension();
             $image->move(
                     $this->getParameter('cards_folder'),
