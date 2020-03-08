@@ -17,37 +17,43 @@
     <body>
         {% include "home/navbar.html.twig" %}
         {% block body %}{% endblock %}
-
+        
         <div id="pageContent"> 
         </div>
 
         {% block javascripts %}
             <script>
-            $('nav a').click(function (e) {
-                e.preventDefault();
-                $('nav a').removeClass('active');
-                $(this).addClass('active');
-                $("#pageContent").load($(this).attr('href'));
-            });
+                $('nav a').click(function (e) {
+                    e.preventDefault();
+                    $('nav a').removeClass('active');
+                    $(this).addClass('active');
+                    $("#pageContent").load($(this).attr('href'));
+                });
 
-            $('#pageContent').on('submit', 'form', function (e) {
-                e.preventDefault();
-                var form = $(this);
-                $.ajax({
-                type: "POST",
-                url: form.attr('action'),
-                data: new FormData(this),
-                contentType : false,
-                processData: false,
-                success: function success(response) {
-                    console.log('ok');
-                    $("#pageContent").load($('.active').attr('href'));
-                },error:function(err){
-                    console.log('nok');
-                }
-            });
+                $('#pageContent').on('click','a', function (e) {
+                    e.preventDefault();
+                    console.log('dedans');
+                    $("#pageContent").load($(this).attr('href'));
+                });
 
-            });    
+                $('#pageContent').on('submit', 'form', function (e) {
+                    e.preventDefault();
+                    var form = $(this);
+                    $.ajax({
+                        type: "POST",
+                        url: form.attr('action'),
+                        data: new FormData(this),
+                        contentType : false,
+                        processData: false,
+                        success: function success(response) {
+                            console.log('ok');
+                            $("#pageContent").load($('.active').attr('href'));
+                        },
+                        error:function(err){
+                            console.log('nok');
+                        }
+                    });
+                });    
             </script>
         {% endblock %}
     </body>

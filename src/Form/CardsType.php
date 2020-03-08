@@ -18,7 +18,7 @@ class CardsType extends AbstractType
             ->add('name', TextType::class,[
                 'label' => 'Nom de la carte : ',
             ])
-            ->add('image', FileType::class,[
+            ->add('image', FileType::class,[  //https://geekco.fr/blog/la-gestion-des-images-dans-un-projet-symfony
                 'label' => 'Image de la carte : ',
             ])
             ->add('description', TextareaType::class,[

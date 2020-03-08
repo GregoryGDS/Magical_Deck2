@@ -1,7 +1,8 @@
 
-<title>Cards index</title>
+<title>Liste des cartes disponibles</title>
 
-<h1>Cards index</h1>
+<h1>Liste des cartes disponibles</h1>
+<a href="{{ path('create-card') }}">Créer une nouvelle carte</a>
 
 <table class="table">
     <thead>
@@ -50,10 +51,9 @@
         </tr>
     {% else %}
         <tr>
-            <td colspan="7">no records found</td>
+            <td colspan="7">Aucune carte n'a été créé</td>
         </tr>
     {% endfor %}
     </tbody>
 </table>
 
-<a href="{{ path('create-card') }}">Create new</a>
