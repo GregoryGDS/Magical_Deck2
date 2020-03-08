@@ -1,13 +1,79 @@
-{% extends 'base.html.twig' %}
 
-{% block title %}Edit Deck{% endblock %}
+<title>Edit Deck</title>
 
-{% block body %}
-    <h1>Edit Deck</h1>
+<h1>Edition du deck - {{deck.name}} </h1>
 
-    {{ include('deck/_form.html.twig', {'button_label': 'Update'}) }}
+{{ include('form/form.html.twig')}}
 
-    <a href="{{ path('deck_index') }}">back to list</a>
+<h3>Carte du deck</h3>
+<div id="cardsInDeck">
+    <div class="col-lg-12" id='cardsInStorage'>
+        <div class="row">
+            {% for cardDeck in cardListDeck %}
+                <div class="col-lg-2 col-md-4 mb-5">
+                    <div class="card" style="background-color:{{ cardDeck.idCard.idType.cardColor }}">
+                    <input class="idCard_add" type="hidden" value='{{ cardDeck.idCard.id }}'>
+                    <input class="idDeck_add" type="hidden" value='{{ cardDeck.idDeck.id }}'>
+                        <div class="cardHeader">
+                            <span class="cardNumber" style="background-color:blue">{{ cardDeck.idCard.cost }}</span>
+                            <span>{{ cardDeck.idCard.name }}</span>
+                        </div>
+                        <div class="cardImage" style="background-image:url('{{ asset('uploads/images/cards/' ~ cardDeck.idCard.image) }}');" >
+                        </div>
+                        <div class="cardBody">
+                            <div>{{ cardDeck.idCard.idType.name }}/{{ cardDeck.idCard.idFaction.name }}</div>
+                            <div>{{ cardDeck.idCard.description }}</div>
+                        </div>
+                        <div class="cardFooter">
+                            {% if cardDeck.idCard.attack is not null or cardDeck.idCard.hp is not null or cardDeck.idCard.shield is not null %}
+                                <div class="cardNumber" style="background-color:red">{{ cardDeck.idCard.attack }}</div>
+                                <span class="cardNumber" style="background-color:pink">{{ cardDeck.idCard.hp }}</span>
+                                <div class="cardNumber" style="background-color:green">{{ cardDeck.idCard.shield }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                Aucune carte n'a été créé
+            {% endfor %}
+        </div>
+    </div>
+</div>
 
-    {{ include('deck/_delete_form.html.twig') }}
-{% endblock %}
+
+<h3>Carte Disponible</h3>
+
+
+<div class="col-lg-12" id='cardsInStorage'>
+    <div class="row">
+        {% for card in cardsListStorage %}
+            <div class="col-lg-2 col-md-4 mb-5">
+                <div class="card" style="background-color:{{ card.idType.cardColor }}">
+                <input class="idCard_add" type="hidden" value='{{ card.id }}'>
+                <input class="idDeck_add" type="hidden" value='{{ deck.id }}'>
+                    <div class="cardHeader" >
+                        <span class="cardNumber" style="background-color:blue">{{ card.cost }}</span>
+                        <span>{{ card.name }}</span>
+                    </div>
+                    <div class="cardImage" style="background-image:url('{{ asset('uploads/images/cards/' ~ card.image) }}');" >
+                    </div>
+                    <div class="cardBody">
+                        <div>{{ card.idType.name }}/{{ card.idFaction.name }}</div>
+                        <div>{{ card.description }}</div>
+                    </div>
+                    <div class="cardFooter">
+                        {% if card.attack is not null or card.hp is not null or card.shield is not null %}
+                            <div class="cardNumber" style="background-color:red">{{ card.attack }}</div>
+                            <span class="cardNumber" style="background-color:pink">{{ card.hp }}</span>
+                            <div class="cardNumber" style="background-color:green">{{ card.shield }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            Aucune carte n'a été créé
+        {% endfor %}
+    </div>
+</div>
+
+<a href="{{ path('show-deck', {'id': deck.id}) }}">Retour au détail</a>

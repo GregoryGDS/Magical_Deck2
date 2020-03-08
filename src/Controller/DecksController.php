@@ -3,12 +3,16 @@
 namespace App\Controller;
 
 use App\Entity\Decks;
+use App\Entity\Cards;
 use App\Form\DecksType;
 use App\Repository\DecksRepository;
+use App\Repository\CardsRepository;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+
 use Doctrine\ORM\EntityManagerInterface;
 
 
@@ -66,6 +70,7 @@ class DecksController extends AbstractController
      */
     public function show(Decks $deck): Response
     {
+        
         return $this->render('decks/show.html.twig', [
             'deck' => $deck,
         ]);
@@ -74,18 +79,26 @@ class DecksController extends AbstractController
     /**
      * @Route("edit-deck/{id}", name="edit-deck", methods={"GET","POST"})
      */
-    public function edit(Request $request, Decks $deck): Response
+    public function edit(Request $request, Decks $deck,CardsRepository $CardsRepository): Response
     {
+
         $form = $this->createForm(DecksType::class, $deck);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+        $cardsListStorage = $CardsRepository->findAll();
+        $cardListDeck = $deck->getCardDecks();
 
-            return $this->redirectToRoute('deck_index');
+        //màj du nom 
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->entityManager->flush();
+
+            return $this->redirectToRoute('show-deck',['id'=>$deck->getId()]); 
         }
 
         return $this->render('decks/edit.html.twig', [
+            'title' => 'Edition du deck',
+            'cardListDeck' => $cardListDeck,
+            'cardsListStorage' => $cardsListStorage,
             'deck' => $deck,
             'form' => $form->createView(),
         ]);
