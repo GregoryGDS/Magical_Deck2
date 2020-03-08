@@ -68,7 +68,7 @@ class CardsController extends AbstractController
         }
 
         return $this->render('form/Form.html.twig', [
-            'title' => 'card',
+            'title' => 'carte',
             'form' => $form->createView(),
         ]);
     }

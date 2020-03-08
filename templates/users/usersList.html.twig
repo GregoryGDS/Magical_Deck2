@@ -1,18 +1,19 @@
 
-<title>Users List</title>
+<title>Liste utilisateurs</title>
 
-    <h1>Users List</h1>
+    <h1>Liste des utilisateurs</h1>
+    <a href="{{ path('app_register') }}">Créer un nouvel utilisateur</a>
 
     <table class="table">
         <thead>
             <tr>
                 <th>Id</th>
-                <th>FirstName</th>
-                <th>LastName</th>
+                <th>Prénom</th>
+                <th>Nom</th>
                 <th>Email</th>
                 <th>Roles</th>
-                <th>CreatedDate</th>
-                <th>actions</th>
+                <th>Date de création</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -25,8 +26,8 @@
                 <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
                 <td>{{ user.createdDate ? user.createdDate|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
-                    <a href="{{ path('users_show', {'id': user.id}) }}">show</a>
-                    <a href="{{ path('users_edit', {'id': user.id}) }}">edit</a>
+                    <a href="{{ path('users_show', {'id': user.id}) }}">Détail</a>
+                    <a href="{{ path('users_edit', {'id': user.id}) }}">Modifier</a>
                 </td>
             </tr>
         {% else %}
@@ -37,4 +38,3 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_register') }}">Create new</a>
