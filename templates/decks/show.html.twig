@@ -3,6 +3,12 @@
 
 <h1>Deck : {{ deck.name }}</h1>
 
+<a href="{{ path('list-deck') }}">Retour aux decks</a>
+<button class="btn-secondary" style="color:white; text-decoration: none;"><a href="{{ path('edit-deck', {'id': deck.id}) }}">Modifier</a></button>
+
+
+
+{{ include('decks/_delete_form.html.twig') }}
 <table class="table">
     <tbody>
         <tr>
@@ -10,14 +16,42 @@
             <td>{{ deck.id }}</td>
         </tr>
         <tr>
-            <th>Name</th>
+            <th>Cartes :</th>
             <td></td>
         </tr>
     </tbody>
 </table>
 
-<a href="{{ path('list-deck') }}">Retour aux decks</a>
-
-<a href="{{ path('edit-deck', {'id': deck.id}) }}">Modifier</a>
-
-{{ include('decks/_delete_form.html.twig') }}
+<div id="">
+    <div class="col-lg-12" id=''>
+        <div class="row">
+            {% for cardDeck in cardListDeck %}
+                <div class="col-lg-2 col-md-4 mb-5">
+                    <div class="card" style="background-color:{{ cardDeck.idCard.idType.cardColor }}">
+                    <input class="idCard_add" type="hidden" value='{{ cardDeck.idCard.id }}'>
+                    <input class="idDeck_add" type="hidden" value='{{ cardDeck.idDeck.id }}'>
+                        <div class="cardHeader">
+                            <span class="cardNumber" style="background-color:blue">{{ cardDeck.idCard.cost }}</span>
+                            <span>{{ cardDeck.idCard.name }}</span>
+                        </div>
+                        <div class="cardImage" style="background-image:url('{{ asset('uploads/images/cards/' ~ cardDeck.idCard.image) }}');" >
+                        </div>
+                        <div class="cardBody">
+                            <div>{{ cardDeck.idCard.idType.name }}/{{ cardDeck.idCard.idFaction.name }}</div>
+                            <div>{{ cardDeck.idCard.description }}</div>
+                        </div>
+                        <div class="cardFooter">
+                            {% if cardDeck.idCard.attack is not null or cardDeck.idCard.hp is not null or cardDeck.idCard.shield is not null %}
+                                <div class="cardNumber" style="background-color:red">{{ cardDeck.idCard.attack }}</div>
+                                <span class="cardNumber" style="background-color:pink">{{ cardDeck.idCard.hp }}</span>
+                                <div class="cardNumber" style="background-color:green">{{ cardDeck.idCard.shield }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                Aucune carte n'a été ajouté au deck
+            {% endfor %}
+        </div>
+    </div>
+</div>

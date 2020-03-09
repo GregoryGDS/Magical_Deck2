@@ -39,7 +39,6 @@ class CardDeckController extends AbstractController
      */
     public function addCardInDeck(Cards $idCard, Decks $idDeck)
     {
-
         $cardDeck = new CardDeck();
 
         $cardDeck->setIdCard($idCard);
@@ -52,4 +51,20 @@ class CardDeckController extends AbstractController
             'controller_name' => 'CardDeckController',
         ]);
     }
+
+    /**
+     * @Route("/deleteCardDeck/{idCardDeck}", name="cardDeck_delete")
+     */
+    public function deleteCardInDeck( int $idCardDeck)
+    {
+        $cardDeck = $this->CardDeckRepository->findOneBy(['id'=>$idCardDeck]);
+
+        if ($cardDeck) {
+            $this->entityManager->remove($cardDeck);
+            $this->entityManager->flush();
+        }
+        return $this->redirectToRoute('list-deck');
+    }
+
+
 }

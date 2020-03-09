@@ -36,7 +36,7 @@ class DecksController extends AbstractController
         $id_user = $this->getUser();
         $deckList = $this->DecksRepository->findBy(array('idUser'=>$id_user));
         return $this->render('decks/decksList.html.twig', [
-        'decks' => $deckList,
+        'decks' => $deckList
         ]);
     }
 
@@ -60,8 +60,8 @@ class DecksController extends AbstractController
         }
 
         return $this->render('form/Form.html.twig', [
-            'title' => 'deck',
-            'form' => $form->createView(),
+            'title' => 'Création - deck',
+            'form' => $form->createView()
         ]);
     }
 
@@ -70,9 +70,11 @@ class DecksController extends AbstractController
      */
     public function show(Decks $deck): Response
     {
-        
+        $cardListDeck = $deck->getCardDecks();
+
         return $this->render('decks/show.html.twig', [
-            'deck' => $deck,
+            'cardListDeck' => $cardListDeck,
+            'deck' => $deck
         ]);
     }
 
@@ -84,6 +86,8 @@ class DecksController extends AbstractController
 
         $form = $this->createForm(DecksType::class, $deck);
         $form->handleRequest($request);
+        
+        $deckName = $deck->getName();
 
         $cardsListStorage = $CardsRepository->findAll();
         $cardListDeck = $deck->getCardDecks();
@@ -96,11 +100,11 @@ class DecksController extends AbstractController
         }
 
         return $this->render('decks/edit.html.twig', [
-            'title' => 'Edition du deck',
+            'title' => "Edition du deck - $deckName",
             'cardListDeck' => $cardListDeck,
             'cardsListStorage' => $cardsListStorage,
             'deck' => $deck,
-            'form' => $form->createView(),
+            'form' => $form->createView()
         ]);
     }
 

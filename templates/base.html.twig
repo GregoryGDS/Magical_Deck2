@@ -37,6 +37,7 @@
                     $("#pageContent").load($(this).attr('href'));
                 });
 
+                // ajouter cartes au deck
                 $('#pageContent').on('click','#cardsInStorage .card', function () {
                     let idCard = $(this).find('.idCard_add').val();
                     let idDeck = $(this).find('.idDeck_add').val();
@@ -52,9 +53,25 @@
                             console.log('nok dans add cardDeck');
                         }
                     });
-                    //$("#pageContent").load($(this).attr('href'));
                 });
 
+                // supprimer cartes du deck
+                $('#pageContent').on('click','#cardsInDeckEdit .card', function () {
+                    let idCardDeck = $(this).find('.idCardDeck_delete').val();
+                    let idDeck = $(this).find('.idDeck_delete').val();
+                    console.log('dans cardsInDeckEdit, id carte Deck : '+idCardDeck+', id deck :'+ idDeck);
+                    $.ajax({
+                        type: "GET",
+                        url: "/deleteCardDeck/"+idCardDeck,
+                        success: function success(response) {
+                            console.log('ok dans delete cardDeck');
+                            $("#pageContent").load("edit-deck/"+idDeck);
+                        },
+                        error:function(err){
+                            console.log('nok dans delete cardDeck');
+                        }
+                    });
+                });
                 $('#pageContent').on('submit', 'form', function (e) {
                     e.preventDefault();
                     var form = $(this);
