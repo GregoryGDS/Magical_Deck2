@@ -1,14 +1,15 @@
 
-<title>Decks index</title>
+<title>Liste de vos Decks</title>
 
-<h1>Decks index</h1>
+<h1>Liste de vos Decks</h1>
+<a href="{{ path('create-deck') }}">Créer un nouveau deck</a>
 
 <table class="table">
     <thead>
         <tr>
             <th>Id</th>
             <th>Nom</th>
-            <th>Créateur</th>
+            <!--<th>Créateur</th>-->
             <th>actions</th>
         </tr>
     </thead>
@@ -17,10 +18,10 @@
         <tr>
             <td>{{ deck.id }}</td>
             <td>{{ deck.name }}</td>
-            <td>{{ deck.idUser.firstName }}</td>
+            {#<td>{{ deck.idUser.firstName }}</td>#}
             <td>
-                <a href="{{ path('show-deck', {'id': deck.id}) }}">show</a>
-                <a href="{{ path('edit-deck', {'id': deck.id}) }}">edit</a>
+                <a href="{{ path('show-deck', {'id': deck.id}) }}">Détail</a>
+                <a href="{{ path('edit-deck', {'id': deck.id}) }}">Modifier</a>
             </td>
         </tr>
     {% else %}
@@ -31,5 +32,4 @@
     </tbody>
 </table>
 
-<a href="{{ path('create-deck') }}">Create new</a>
 

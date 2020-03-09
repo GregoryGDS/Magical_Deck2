@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -22,15 +24,20 @@ class Decks
     private $name;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\CardDeck", inversedBy="idDeck")
-     */
-    private $cardDeck;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Users", inversedBy="listDecks")
      * @ORM\JoinColumn(nullable=false)
      */
     private $idUser;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\CardDeck", mappedBy="idDeck", orphanRemoval=true)
+     */
+    private $cardDecks;
+
+    public function __construct()
+    {
+        $this->cardDecks = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -61,14 +68,33 @@ class Decks
         return $this;
     }
 
-    public function getCardDeck(): ?CardDeck
+    /**
+     * @return Collection|CardDeck[]
+     */
+    public function getCardDecks(): Collection
     {
-        return $this->cardDeck;
+        return $this->cardDecks;
     }
 
-    public function setCardDeck(?CardDeck $cardDeck): self
+    public function addCardDeck(CardDeck $cardDeck): self
     {
-        $this->cardDeck = $cardDeck;
+        if (!$this->cardDecks->contains($cardDeck)) {
+            $this->cardDecks[] = $cardDeck;
+            $cardDeck->setIdDeck($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCardDeck(CardDeck $cardDeck): self
+    {
+        if ($this->cardDecks->contains($cardDeck)) {
+            $this->cardDecks->removeElement($cardDeck);
+            // set the owning side to null (unless already changed)
+            if ($cardDeck->getIdDeck() === $this) {
+                $cardDeck->setIdDeck(null);
+            }
+        }
 
         return $this;
     }

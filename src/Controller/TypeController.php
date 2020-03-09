@@ -54,7 +54,7 @@ class TypeController extends AbstractController
 
         }
         return $this->render('form/Form.html.twig', [
-            'title' => 'type',
+            'title' => 'Création - type',
             'form' => $form->createView(),
         ]);
     }

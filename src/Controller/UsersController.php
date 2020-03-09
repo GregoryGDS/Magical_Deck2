@@ -35,6 +35,7 @@ class UsersController extends AbstractController
     /**
      * @Route("/new", name="users_new", methods={"GET","POST"})
      */
+    /*
     public function new(Request $request): Response
     {
         $user = new Users();
@@ -54,7 +55,8 @@ class UsersController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-
+     */
+    
     /**
      * @Route("/{id}", name="users_show", methods={"GET"})
      */

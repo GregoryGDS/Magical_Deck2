@@ -9,6 +9,7 @@
           href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css"
           integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy"
           crossorigin="anonymous">
+          
         <link rel="stylesheet" href="css/cards.css">
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
@@ -17,37 +18,78 @@
     <body>
         {% include "home/navbar.html.twig" %}
         {% block body %}{% endblock %}
-
+        
         <div id="pageContent"> 
         </div>
 
         {% block javascripts %}
             <script>
-            $('nav a').click(function (e) {
-                e.preventDefault();
-                $('nav a').removeClass('active');
-                $(this).addClass('active');
-                $("#pageContent").load($(this).attr('href'));
-            });
+                $('nav a').click(function (e) {
+                    e.preventDefault();
+                    $('nav a').removeClass('active');
+                    $(this).addClass('active');
+                    $("#pageContent").load($(this).attr('href'));
+                });
 
-            $('#pageContent').on('submit', 'form', function (e) {
-                e.preventDefault();
-                var form = $(this);
-                $.ajax({
-                type: "POST",
-                url: form.attr('action'),
-                data: new FormData(this),
-                contentType : false,
-                processData: false,
-                success: function success(response) {
-                    console.log('ok');
-                    $("#pageContent").load($('.active').attr('href'));
-                },error:function(err){
-                    console.log('nok');
-                }
-            });
+                $('#pageContent').on('click','a', function (e) {
+                    e.preventDefault();
+                    console.log('dans click a');
+                    $("#pageContent").load($(this).attr('href'));
+                });
 
-            });    
+                // ajouter cartes au deck
+                $('#pageContent').on('click','#cardsInStorage .card', function () {
+                    let idCard = $(this).find('.idCard_add').val();
+                    let idDeck = $(this).find('.idDeck_add').val();
+                    console.log('dans cardsInStorage, id carte : '+idCard+', id deck :'+ idDeck);
+                    $.ajax({
+                        type: "GET",
+                        url: "/addCardDeck/"+idCard+"/"+idDeck,
+                        success: function success(response) {
+                            console.log('ok dans add cardDeck');
+                            $("#pageContent").load("edit-deck/"+idDeck);
+                        },
+                        error:function(err){
+                            console.log('nok dans add cardDeck');
+                        }
+                    });
+                });
+
+                // supprimer cartes du deck
+                $('#pageContent').on('click','#cardsInDeckEdit .card', function () {
+                    let idCardDeck = $(this).find('.idCardDeck_delete').val();
+                    let idDeck = $(this).find('.idDeck_delete').val();
+                    console.log('dans cardsInDeckEdit, id carte Deck : '+idCardDeck+', id deck :'+ idDeck);
+                    $.ajax({
+                        type: "GET",
+                        url: "/deleteCardDeck/"+idCardDeck,
+                        success: function success(response) {
+                            console.log('ok dans delete cardDeck');
+                            $("#pageContent").load("edit-deck/"+idDeck);
+                        },
+                        error:function(err){
+                            console.log('nok dans delete cardDeck');
+                        }
+                    });
+                });
+                $('#pageContent').on('submit', 'form', function (e) {
+                    e.preventDefault();
+                    var form = $(this);
+                    $.ajax({
+                        type: "POST",
+                        url: form.attr('action'),
+                        data: new FormData(this),
+                        contentType : false,
+                        processData: false,
+                        success: function success(response) {
+                            console.log('ok');
+                            $("#pageContent").load($('.active').attr('href'));
+                        },
+                        error:function(err){
+                            console.log('nok');
+                        }
+                    });
+                });    
             </script>
         {% endblock %}
     </body>
