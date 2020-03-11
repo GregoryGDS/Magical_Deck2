@@ -13,6 +13,7 @@
         {% for  entity in entities %}
             <li>
                 {{ entity.name}}
+                <a href="{{ path('edit-faction',{'id': entity.id})}}">Modifier</a>
             </li>
         {% endfor %}
     </ul>

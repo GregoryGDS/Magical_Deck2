@@ -82,11 +82,11 @@
                         contentType : false,
                         processData: false,
                         success: function success(response) {
-                            console.log('ok');
+                            console.log('ok submit');
                             $("#pageContent").load($('.active').attr('href'));
                         },
                         error:function(err){
-                            console.log('nok');
+                            console.log('nok submit');
                         }
                     });
                 });    

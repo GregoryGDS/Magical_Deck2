@@ -1,13 +1,13 @@
-{% extends 'base.html.twig' %}
 
-{% block title %}Edit Users{% endblock %}
+<title>Modif Utilisateur</title>
 
-{% block body %}
-    <h1>Edit Users</h1>
+<h1>Modif Utilisateur</h1>
+<a href="{{ path('show-user', {'id': user.id}) }}">Profil Utilisateur</a>
+{{ include('users/_delete_form.html.twig') }}
+<a href="{{ path('list-user') }}">Liste utilisateur</a>
 
-    {{ include('users/_form.html.twig', {'button_label': 'Update'}) }}
+{{ include('form/updateUser.html.twig')}}
 
-    <a href="{{ path('users_index') }}">back to list</a>
 
-    {{ include('users/_delete_form.html.twig') }}
-{% endblock %}
+
+

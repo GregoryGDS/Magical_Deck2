@@ -26,13 +26,13 @@
                 <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
                 <td>{{ user.createdDate ? user.createdDate|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
-                    <a href="{{ path('users_show', {'id': user.id}) }}">Détail</a>
-                    <a href="{{ path('users_edit', {'id': user.id}) }}">Modifier</a>
+                    <a href="{{ path('show-user', {'id': user.id}) }}">Détail</a>
+                    <a href="{{ path('edit-user', {'id': user.id}) }}">Modifier</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="8">no records found</td>
+                <td colspan="8">Aucun utilisateur ;-;</td>
             </tr>
         {% endfor %}
         </tbody>

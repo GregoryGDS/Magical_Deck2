@@ -58,30 +58,40 @@ class UsersController extends AbstractController
      */
     
     /**
-     * @Route("/{id}", name="users_show", methods={"GET"})
+     * @Route("show-user/{id}", name="show-user", methods={"GET"})
      */
     public function show(Users $user): Response
     {
+        $MyDeckList = $user->getListDecks();
+
         return $this->render('users/show.html.twig', [
+            'deckList' => $MyDeckList,
             'user' => $user,
         ]);
     }
 
     /**
-     * @Route("/{id}/edit", name="users_edit", methods={"GET","POST"})
+     * @Route("edit-user/{id}", name="edit-user", methods={"GET","POST"})
      */
     public function edit(Request $request, Users $user): Response
     {
         $form = $this->createForm(UsersType::class, $user);
         $form->handleRequest($request);
 
+        $name = $user->getFirstName()." ".$user->getLastName();
+
+        $id_current_user = $this->getUser();
+
         if ($form->isSubmitted() && $form->isValid()) {
+            dd($form);
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('users_index');
         }
 
         return $this->render('users/edit.html.twig', [
+            'title' => "Modification de l'utilisateur $name",
+            'current_user'=>$id_current_user,
             'user' => $user,
             'form' => $form->createView(),
         ]);

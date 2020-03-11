@@ -84,12 +84,13 @@ class CardsController extends AbstractController
     }
 
     /**
-     * @Route("/card/{id}/edit", name="cards_edit", methods={"GET","POST"})
+     * @Route("/edit-card/{id}", name="edit-card", methods={"GET","POST"})
      */
     public function edit(Request $request, Cards $card): Response
     {
         $form = $this->createForm(CardsType::class, $card);
         $form->handleRequest($request);
+        $name = $card->getName();
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
@@ -98,6 +99,7 @@ class CardsController extends AbstractController
         }
 
         return $this->render('cards/edit.html.twig', [
+            'title' => "Modification de la carte $name",
             'card' => $card,
             'form' => $form->createView(),
         ]);

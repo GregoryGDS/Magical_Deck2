@@ -57,6 +57,28 @@ class FactionController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+    
+    /**
+     * @Route("edit-faction/{id}", name="edit-faction", methods={"GET","POST"})
+     */
+    public function edit(Request $request, Factions $faction)
+    {
+        $form = $this->createForm(FactionType::class, $faction);
+        $form->handleRequest($request);
 
+        $name = $faction->getName();
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('list-faction');
+        }
+
+        return $this->render('faction/edit.html.twig', [
+            'title' => "Modification de la faction : $name",
+            'faction' => $faction,
+            'form' => $form->createView(),
+        ]);
+    }
 
 }
