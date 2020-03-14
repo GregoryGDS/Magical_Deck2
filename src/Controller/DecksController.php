@@ -71,8 +71,10 @@ class DecksController extends AbstractController
     public function show(Decks $deck): Response
     {
         $cardListDeck = $deck->getCardDecks();
+        $owner = $deck->getIdUser();
 
         return $this->render('decks/show.html.twig', [
+            'owner' => $owner,
             'cardListDeck' => $cardListDeck,
             'deck' => $deck
         ]);

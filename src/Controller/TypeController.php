@@ -51,13 +51,33 @@ class TypeController extends AbstractController
             $this->entityManager->flush();
 
             return $this->redirectToRoute('list-type');
-
         }
         return $this->render('form/Form.html.twig', [
             'title' => 'Création - type',
             'form' => $form->createView(),
         ]);
     }
+    /**
+     * @Route("edit-type/{id}", name="edit-type", methods={"GET","POST"})
+     */
+    public function edit(Request $request, Types $type)
+    {
+        $form = $this->createForm(TypeForm::class, $type);
+        $form->handleRequest($request);
 
+        $name = $type->getName();
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('list-type');
+        }
+
+        return $this->render('type/edit.html.twig', [
+            'title' => "Modification du type : $name",
+            'type' => $type,
+            'form' => $form->createView(),
+        ]);
+    }
 
 }

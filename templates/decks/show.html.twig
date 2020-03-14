@@ -3,9 +3,9 @@
 
 <h1>Deck : {{ deck.name }}</h1>
 
-<a href="{{ path('list-deck') }}">Retour aux decks</a>
+<a href="{{ path('list-deck') }}">Retour à vos decks</a>
 <button class="btn-secondary" style="color:white; text-decoration: none;"><a href="{{ path('edit-deck', {'id': deck.id}) }}">Modifier</a></button>
-
+ <a href="{{ path('show-user', {'id': owner.id}) }}">Profil Propriétaire</a>
 
 
 {{ include('decks/_delete_form.html.twig') }}

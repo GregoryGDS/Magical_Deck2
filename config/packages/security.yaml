@@ -37,11 +37,12 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }        
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/list-card, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/create-type, roles: ROLE_ADMIN } 
-        - { path: ^/create-faction, roles: ROLE_ADMIN }    
+        - { path: ^/create-type, roles: ROLE_ADMIN }
+        - { path: ^/create-faction, roles: ROLE_ADMIN }
+        - { path: ^/create-user, roles: ROLE_ADMIN }
         - { path: ^/, roles: ROLE_USER }
 
 

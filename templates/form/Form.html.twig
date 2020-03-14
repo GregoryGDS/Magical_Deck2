@@ -3,9 +3,9 @@
     <div class="col">
         {{ form_start(form, {'action': path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')), 'method': 'POST', 'enctype':'multipart/form-data'}) }}
         {# 'enctype':'multipart/form-data'=> capable de prendre fichier binary donc les images#}
-        {{ form_row(form.name) }}
+        {{ form_widget(form) }}
+        {# n'affiche pas le nom de l'entité object ?? #}
         {{ form_end(form) }}
 
     </div>
 </div>
-

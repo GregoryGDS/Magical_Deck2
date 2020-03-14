@@ -1,0 +1,21 @@
+<title>Create User</title>
+
+{{ form_start(form, {'action': path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')), 'method': 'POST', 'enctype':'multipart/form-data'}) }}
+    <div style='position:center;'>Create User</div>
+    <div class="row">
+        <div class="col">
+            {{ form_row(createUserForm.firstName) }}
+        </div>
+        <div class="col">
+            {{ form_label(createUserForm.lastName) }}
+            {{ form_widget(createUserForm.lastName) }}
+            <span class="text-danger">{{ form_errors(createUserForm.lastName) }}</span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            {{ form_row(createUserForm.birthDate) }}
+        </div>
+    </div>
+
+{{ form_end(createUserForm) }}

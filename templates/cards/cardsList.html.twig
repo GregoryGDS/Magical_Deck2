@@ -45,8 +45,8 @@
             <td>{{ card.idFaction.name }}</td>
 
             <td>
-                <a href="{{ path('show-card', {'id': card.id}) }}">show</a>
-                <a href="{{ path('cards_edit', {'id': card.id}) }}">edit</a>
+                <a href="{{ path('show-card', {'id': card.id}) }}">Détail</a>
+                <a href="{{ path('edit-card', {'id': card.id}) }}">Modifier</a>
             </td>
         </tr>
     {% else %}
