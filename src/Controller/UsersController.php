@@ -8,6 +8,7 @@ use App\Repository\UsersRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\{Request,Response};
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -16,7 +17,7 @@ class UsersController extends AbstractController
     private $UsersRepository;
     private $entityManager;
 
-    public function __construct(UsersRepository $UsersRepository,EntityManagerInterface $entityManager){
+    public function __construct(UsersRepository $UsersRepository, EntityManagerInterface $entityManager){
         $this->UsersRepository = $UsersRepository;
         $this->entityManager = $entityManager;
     }
@@ -33,29 +34,40 @@ class UsersController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="users_new", methods={"GET","POST"})
+     * @Route("/create-user", name="create-user", methods={"GET","POST"})
      */
-    /*
-    public function new(Request $request): Response
+    public function createUser(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
     {
         $user = new Users();
         $form = $this->createForm(UsersType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            //$entityManager = $this->getDoctrine()->getManager();
+
+            $createdDate = date('Y-m-d H:i:s');
+            $user->setCreatedDate(new \DateTime($createdDate));
+
+            $user->setPassword(
+                $passwordEncoder->encodePassword(
+                    $user,
+                    $form->get('password')->getData()
+                )
+            );
+
+
             $this->entityManager->persist($user);
             $this->entityManager->flush();
 
-            return $this->redirectToRoute('users_index');
+            return $this->redirectToRoute('list-user');
         }
 
-        return $this->render('users/new.html.twig', [
+        return $this->render('form/form.html.twig', [
+            'title' => 'Création - utilisateur',
             'user' => $user,
             'form' => $form->createView(),
         ]);
     }
-     */
+
     
     /**
      * @Route("show-user/{id}", name="show-user", methods={"GET"})

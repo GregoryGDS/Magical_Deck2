@@ -3,7 +3,6 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Magical Deck{% endblock %}</title>
-        
 
         <link rel="stylesheet"
           href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css"
@@ -11,43 +10,64 @@
           crossorigin="anonymous">
           
         <link rel="stylesheet" href="css/cards.css">
+        <link rel="stylesheet" href="css/style.css">
+        
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
         {% include "home/navbar.html.twig" %}
-        {% block body %}{% endblock %}
-        
+        {% block body %}
+
+
+        <div class="loading">Loading</div>
+
         <div id="pageContent"> 
         </div>
+
+
+        {% endblock %}
+
+
+
+
 
         {% block javascripts %}
             <script>
                 $('nav a').click(function (e) {
                     e.preventDefault();
+                    $(".loading").css('visibility','visible');
                     $('nav a').removeClass('active');
                     $(this).addClass('active');
-                    $("#pageContent").load($(this).attr('href'));
+                    $("#pageContent").load($(this).attr('href'), function() {
+                        $(".loading").css('visibility','hidden');
+                    });
                 });
 
                 $('#pageContent').on('click','a', function (e) {
                     e.preventDefault();
+                     $(".loading").css('visibility','visible');
                     console.log('dans click a');
-                    $("#pageContent").load($(this).attr('href'));
+                    $("#pageContent").load($(this).attr('href'), function() {
+                        $(".loading").css('visibility','hidden');
+                    });
                 });
 
                 // ajouter cartes au deck
                 $('#pageContent').on('click','#cardsInStorage .card', function () {
                     let idCard = $(this).find('.idCard_add').val();
                     let idDeck = $(this).find('.idDeck_add').val();
+                     $(".loading").css('visibility','visible');
                     console.log('dans cardsInStorage, id carte : '+idCard+', id deck :'+ idDeck);
                     $.ajax({
                         type: "GET",
                         url: "/addCardDeck/"+idCard+"/"+idDeck,
                         success: function success(response) {
                             console.log('ok dans add cardDeck');
-                            $("#pageContent").load("edit-deck/"+idDeck);
+                            $("#pageContent").load("edit-deck/"+idDeck, function() {
+                                $(".loading").css('visibility','hidden');
+                            });
                         },
                         error:function(err){
                             console.log('nok dans add cardDeck');
@@ -59,13 +79,16 @@
                 $('#pageContent').on('click','#cardsInDeckEdit .card', function () {
                     let idCardDeck = $(this).find('.idCardDeck_delete').val();
                     let idDeck = $(this).find('.idDeck_delete').val();
+                     $(".loading").css('visibility','visible');
                     console.log('dans cardsInDeckEdit, id carte Deck : '+idCardDeck+', id deck :'+ idDeck);
                     $.ajax({
                         type: "GET",
                         url: "/deleteCardDeck/"+idCardDeck,
                         success: function success(response) {
                             console.log('ok dans delete cardDeck');
-                            $("#pageContent").load("edit-deck/"+idDeck);
+                            $("#pageContent").load("edit-deck/"+idDeck, function() {
+                                $(".loading").css('visibility','hidden');
+                            });
                         },
                         error:function(err){
                             console.log('nok dans delete cardDeck');
@@ -74,6 +97,7 @@
                 });
                 $('#pageContent').on('submit', 'form', function (e) {
                     e.preventDefault();
+                     $(".loading").css('visibility','visible');
                     var form = $(this);
                     $.ajax({
                         type: "POST",
@@ -83,7 +107,9 @@
                         processData: false,
                         success: function success(response) {
                             console.log('ok submit');
-                            $("#pageContent").load($('.active').attr('href'));
+                            $("#pageContent").load($('.active').attr('href'), function() {
+                                $(".loading").css('visibility','hidden');
+                            });
                         },
                         error:function(err){
                             console.log('nok submit');

@@ -13,6 +13,9 @@
 - anonyme peut voir list carte et détail 
 
 AJOUT
+- gérer msg erreur des formulaire (password / taille img)
+- seul admin a access à la list user
+- loader
 - pseudo en plus du nom et remplacer les nom par pseudo partout sauf dans le detail user
 - repeat password
 - commande création admin
