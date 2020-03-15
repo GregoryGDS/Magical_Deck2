@@ -4,10 +4,13 @@
 <h1>Liste des cartes disponibles</h1>
 <a href="{{ path('create-card') }}">Créer une nouvelle carte</a>
 
+<a class="export" href="{{ path('export_csv', {'name': 'cards'}) }}" >Exporter les cartes 
+    <input class="export_name" type="hidden" value='allCards'>
+</a>
+{# download="export.csv" #}
 <table class="table">
     <thead>
         <tr>
-            <th>Id</th>
             <th>Images</th>
             <th>Créateur</th>
             <th>Type</th>
@@ -18,14 +21,20 @@
     <tbody>
     {% for card in cards %}
         <tr>
-            <td>{{ card.id }}</td>
             <td>
-                <div class="card" style="background-color:{{ card.idType.cardColor }}">
+            {% if card.fullArt == 1 %} 
+                {% set backgroundFullCard = "background-image:url('uploads/images/cards/" ~ card.image ~ "')" %}
+                {% set backgroundCard = '' %}
+            {% else %}
+                {% set backgroundFullCard = "background-color:" ~ card.idType.cardColor ~ "" %}
+                {% set backgroundCard = "background-image:url('uploads/images/cards/" ~ card.image ~ "'); border-width: initial; border:1px solid black;" %}
+            {% endif %}
+                <div class="card" style= "{{ backgroundFullCard }}">
                     <div class="cardHeader" >
                         <span class="cardNumber" style="background-color:blue">{{ card.cost }}</span>
                         <span>{{ card.name }}</span>
                     </div>
-                    <div class="cardImage" style="background-image:url('{{ asset('uploads/images/cards/' ~ card.image) }}');" >
+                    <div class="cardImage" style=" {{backgroundCard}}"  >
                     </div>
                     <div class="cardBody">
                         <div>{{ card.idType.name }}/{{ card.idFaction.name }}</div>{#symfony considère qu'on fait un getIdCreator #}

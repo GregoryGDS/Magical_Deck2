@@ -26,8 +26,7 @@
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
-    border:1px solid black;
-    border-width: initial;
+    /*borde dans vu pour full art*/
 }
 .cardFooter {
     display:flex;

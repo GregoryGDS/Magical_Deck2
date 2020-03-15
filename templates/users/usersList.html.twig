@@ -1,40 +1,42 @@
 
 <title>Liste utilisateurs</title>
 
-    <h1>Liste des utilisateurs</h1>
-    <a href="{{ path('create-user') }}">Créer un nouvel utilisateur</a>
+<h1>Liste des utilisateurs</h1>
+<a href="{{ path('create-user') }}">Créer un nouvel utilisateur</a>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Prénom</th>
-                <th>Nom</th>
-                <th>Email</th>
-                <th>Roles</th>
-                <th>Date de création</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for user in users %}
-            <tr>
-                <td>{{ user.id }}</td>
-                <td>{{ user.firstName }}</td>
-                <td>{{ user.lastName }}</td>
-                <td>{{ user.email }}</td>
-                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
-                <td>{{ user.createdDate ? user.createdDate|date('Y-m-d H:i:s') : '' }}</td>
-                <td>
-                    <a href="{{ path('show-user', {'id': user.id}) }}">Détail</a>
-                    <a href="{{ path('edit-user', {'id': user.id}) }}">Modifier</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="8">Aucun utilisateur ;-;</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+<a class="export" href="{{ path('export_csv', {'name': 'users'}) }}" >Exporter les utilisateurs
+    <input class="export_name" type="hidden" value='allUsers'>
+</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Prénom</th>
+            <th>Nom</th>
+            <th>Email</th>
+            <th>Roles</th>
+            <th>Date de création</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for user in users %}
+        <tr>
+            <td>{{ user.firstName }}</td>
+            <td>{{ user.lastName }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
+            <td>{{ user.createdDate ? user.createdDate|date('Y-m-d H:i:s') : '' }}</td>
+            <td>
+                <a href="{{ path('show-user', {'id': user.id}) }}">Détail</a>
+                <a href="{{ path('edit-user', {'id': user.id}) }}">Modifier</a>
+            </td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="8">Aucun utilisateur ;-;</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
 

@@ -33,6 +33,11 @@ class Types
      */
     private $cardColor;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $stats;
+
     public function __construct()
     {
         $this->listCards = new ArrayCollection();
@@ -94,6 +99,18 @@ class Types
     public function setCardColor(?string $cardColor): self
     {
         $this->cardColor = $cardColor;
+
+        return $this;
+    }
+
+    public function getStats(): ?bool
+    {
+        return $this->stats;
+    }
+
+    public function setStats(bool $stats): self
+    {
+        $this->stats = $stats;
 
         return $this;
     }

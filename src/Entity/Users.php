@@ -80,8 +80,8 @@ class Users implements UserInterface
         return $this->email;
     }
 
-    public function setEmail(string $email): self
-    {
+    public function setEmail(string $email): self 
+    { 
         $this->email = $email;
 
         return $this;
@@ -179,7 +179,7 @@ class Users implements UserInterface
         return $this;
     }
 
-    public function getFirstName(): ?string
+    public function getFirstName(): ?string 
     {
         return $this->firstName;
     }
@@ -191,7 +191,7 @@ class Users implements UserInterface
         return $this;
     }
 
-    public function getLastName(): ?string
+    public function getLastName(): ?string 
     {
         return $this->lastName;
     }
@@ -203,7 +203,7 @@ class Users implements UserInterface
         return $this;
     }
 
-    public function getCreatedDate(): ?\DateTimeInterface
+    public function getCreatedDate(): ?\DateTimeInterface 
     {
         return $this->createdDate;
     }
@@ -246,4 +246,15 @@ class Users implements UserInterface
         return $this;
     }
 
+    public function arrayExport(){
+
+        $exportTab = [
+            "prenom" => $this->getFirstName(),
+            "nom" => $this->getLastName(),
+            "email" => $this->getEmail(),
+            'date_creation'=> $this->getCreatedDate()->format('d-m-Y H:i:s')
+        ];
+        //ajout role
+        return $exportTab;
+    }
 }

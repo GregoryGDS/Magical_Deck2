@@ -76,6 +76,17 @@ class Cards
      */
     private $cardDecks;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Rarity", inversedBy="idCard")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $rarity;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $fullArt;
+
     public function __construct()
     {
         $this->cardDecks = new ArrayCollection();
@@ -145,7 +156,7 @@ class Cards
 
         return $this;
     }
-
+    
     public function getIdType(): ?Types
     {
         return $this->id_type;
@@ -199,7 +210,7 @@ class Cards
         return $this->image;
     }
 
-    public function setImage(string $image): self
+    public function setImage(?string $image): self
     {
         $this->image = $image;
 
@@ -237,4 +248,44 @@ class Cards
         return $this;
     }
 
+    public function getRarity(): ?Rarity
+    {
+        return $this->rarity;
+    }
+
+    public function setRarity(?Rarity $rarity): self
+    {
+        $this->rarity = $rarity;
+
+        return $this;
+    }
+
+    public function getFullArt(): ?bool
+    {
+        return $this->fullArt;
+    }
+
+    public function setFullArt(bool $fullArt): self
+    {
+        $this->fullArt = $fullArt;
+
+        return $this;
+    }
+
+    public function arrayExport(){
+
+        $exportTab = [
+            "name" => $this->getName(),
+            "cost" => $this->getCost(),
+            "hp" => $this->getHP(),
+            "attack" => $this->getAttack(),
+            "shield" =>$this->getShield(),
+            "description" => $this->getDescription(),
+            "image" => $this->getImage(),
+            "type" => $this->getIdType()->getName(),
+            "faction" => $this->getIdFaction()->getName(),
+            "user" => $this->getIdCreator()->getFirstName().' '.$this->getIdCreator()->getLastName()
+        ];
+        return $exportTab;
+    }
 }

@@ -9,12 +9,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Validator\Constraints\DateTime;
+use Symfony\Component\HttpFoundation\File\File;
+use Doctrine\ORM\EntityManagerInterface;
 
 class CardsController extends AbstractController
 {
-
     private $CardsRepository;
     private $entityManager;
 
@@ -50,15 +50,19 @@ class CardsController extends AbstractController
             $card->setIdCreator($id_user);
 
             $image = $form->get('image')->getData();
-
             $date_format =  date('Y-m-d-H-i-s');
             $date = new DateTime($date_format);
-            
-            $image_name = 'card-'.uniqid().'-'.$date->format.'.'.$image->guessExtension();
-            $image->move(
+            //si carte vide 
+            if (!empty($image) || $image != null ) {
+                $image_name = 'card-'.uniqid().'-'.$date->format.'.'.$image->guessExtension();
+                $image->move(
                     $this->getParameter('cards_folder'),
                     $image_name
-            );
+                );
+            }else {
+                $image_name = 'card-anonym.png';
+            }
+            
             $card->setImage($image_name);
 
             $this->entityManager->persist($card);
@@ -88,18 +92,55 @@ class CardsController extends AbstractController
      */
     public function edit(Request $request, Cards $card): Response
     {
+/*
+        $image = $card->getImage();
+
+        if (!empty($image)){
+
+            $image = new File($this->getParameter('cards_folder')."/".$card->getImage());
+        }
+        else{
+
+            $image = new File($this->getParameter('cards_folder')."/card-anonym.png");
+        }
+
+        $image = $card->getImage();
+        $card->setImage($image);
+*/
+
         $form = $this->createForm(CardsType::class, $card);
         $form->handleRequest($request);
         $name = $card->getName();
+        $imageBDD = $card->getImage();
 
         if ($form->isSubmitted() && $form->isValid()) {
+            
+
+            if ($form->get("image")->getData() !== null){
+
+                $image = $form->get('image')->getData();
+                $date_format =  date('Y-m-d-H-i-s');
+                $date = new DateTime($date_format);
+                
+                $image_name = 'card-'.uniqid().'-'.$date->format.'.'.$image->guessExtension();
+                $image->move(
+                    $this->getParameter('cards_folder'),
+                    $image_name
+                );
+                $card->setImage($image_name);
+            }else{
+                //conserve ancienne image
+                $card->setImage($imageBDD);
+
+            }
+
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('cards_index');
+            return $this->redirectToRoute('list-card');
         }
 
         return $this->render('cards/edit.html.twig', [
-            'title' => "Modification de la carte $name",
+            'title' => "Modification de la carte : $name",
             'card' => $card,
             'form' => $form->createView(),
         ]);
@@ -116,6 +157,6 @@ class CardsController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('cards_index');
+        return $this->redirectToRoute('list-card');
     }
 }

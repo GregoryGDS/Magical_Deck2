@@ -1,22 +1,31 @@
 <title>Edit Deck</title>
 
 {{ include('form/form.html.twig')}}
- <a href="{{ path('show-deck', {'id': deck.id}) }}">Retour aux détails du deck</a>
+ <a href="{{ path('show-deck', {'id': deck.id}) }}">Détails du deck</a>
+ <a href="{{ path('list-deck') }}">Liste decks</a>
+{{ include('decks/_delete_form.html.twig') }}
 
 <h3>Carte du deck</h3>
 <div class="col-lg-12" id='cardsInDeckEdit'>
     <div class="row">
         {% for cardDeck in cardListDeck %}
             <div class="col-lg-2 col-md-4 mb-5">
-                <div class="card" style="background-color:{{ cardDeck.idCard.idType.cardColor }}">
-                <input class="idCardDeck_delete" type="hidden" value='{{ cardDeck.id }}'>
-                <input class="idCard_delete" type="hidden" value='{{ cardDeck.idCard.id }}'>
-                <input class="idDeck_delete" type="hidden" value='{{ cardDeck.idDeck.id }}'>
+                {% if cardDeck.idCard.fullArt == 1 %} 
+                    {% set backgroundFullCard = "background-image:url('uploads/images/cards/" ~ cardDeck.idCard.image ~ "')" %}
+                    {% set backgroundCard = '' %}
+                {% else %}
+                    {% set backgroundFullCard = "background-color:" ~ cardDeck.idCard.idType.cardColor ~ "" %}
+                    {% set backgroundCard = "background-image:url('uploads/images/cards/" ~ cardDeck.idCard.image ~ "'); border-width: initial; border:1px solid black;" %}
+                {% endif %}
+                <div class="card" style="{{ backgroundFullCard }}">
+                    <input class="idCardDeck_delete" type="hidden" value='{{ cardDeck.id }}'>
+                    <input class="idCard_delete" type="hidden" value='{{ cardDeck.idCard.id }}'>
+                    <input class="idDeck_delete" type="hidden" value='{{ cardDeck.idDeck.id }}'>
                     <div class="cardHeader">
                         <span class="cardNumber" style="background-color:blue">{{ cardDeck.idCard.cost }}</span>
                         <span>{{ cardDeck.idCard.name }}</span>
                     </div>
-                    <div class="cardImage" style="background-image:url('{{ asset('uploads/images/cards/' ~ cardDeck.idCard.image) }}');" >
+                    <div class="cardImage" style=" {{backgroundCard}}"  >
                     </div>
                     <div class="cardBody">
                         <div>{{ cardDeck.idCard.idType.name }}/{{ cardDeck.idCard.idFaction.name }}</div>
@@ -40,19 +49,25 @@
 
 <h3>Carte Disponible</h3>
 
-
 <div class="col-lg-12" id='cardsInStorage'>
     <div class="row">
         {% for card in cardsListStorage %}
             <div class="col-lg-2 col-md-4 mb-5">
-                <div class="card" style="background-color:{{ card.idType.cardColor }}">
-                <input class="idCard_add" type="hidden" value='{{ card.id }}'>
-                <input class="idDeck_add" type="hidden" value='{{ deck.id }}'>
+                {% if card.fullArt == 1 %} 
+                    {% set backgroundFullCard = "background-image:url('uploads/images/cards/" ~ card.image ~ "')" %}
+                    {% set backgroundCard = '' %}
+                {% else %}
+                    {% set backgroundFullCard = "background-color:" ~ card.idType.cardColor ~ "" %}
+                    {% set backgroundCard = "background-image:url('uploads/images/cards/" ~ card.image ~ "'); border-width: initial; border:1px solid black;" %}
+                {% endif %}
+                <div class="card" style="{{ backgroundFullCard }}">
+                    <input class="idCard_add" type="hidden" value='{{ card.id }}'>
+                    <input class="idDeck_add" type="hidden" value='{{ deck.id }}'>
                     <div class="cardHeader" >
                         <span class="cardNumber" style="background-color:blue">{{ card.cost }}</span>
                         <span>{{ card.name }}</span>
                     </div>
-                    <div class="cardImage" style="background-image:url('{{ asset('uploads/images/cards/' ~ card.image) }}');" >
+                    <div class="cardImage" style=" {{backgroundCard}}"  >
                     </div>
                     <div class="cardBody">
                         <div>{{ card.idType.name }}/{{ card.idFaction.name }}</div>
