@@ -1,56 +1,46 @@
-MODIF/ BUG
-- certaines partie comme card fait avec make:crud
-- pas de messages d'erreur à cause du reload par ajax 
-- pb description carte si resolution trop grande 
-- liste des cartes access pour tous même non co ?
-- voir pour première co
-- voir date creation nom img carte
-- pb si non connecté lien list/create card + connexion/inscription charge en dessous
-- idem deco
-- création type et faction pour tous ou juste pour admin ?
-- pb création utilisateur
-- faire lien supprimer / detail / modifier
-- update user / form à part
-- update card / form à part
-- btn nav profil
-- seul admin et propiétaire de carte peut modifier carte
-- anonyme peut voir list carte et détail 
-- ajout dans type : posible stat ? (pour formulaire dynamique)
-- entité rareté ajouté mais non fonctionnel
-- si image non remplie pour update carte, garde l'ancienne
-AJOUT
-- export user ajout role
-- delete user
-- trie par type et faction
-- modif full art pour rarity ??
-- date de modif dernière modification, pour chaque update
-- gérer msg erreur des formulaire (password / taille img)
-- seul admin a access à la list user
-- loader
-- pseudo en plus du nom et remplacer les nom par pseudo partout sauf dans le detail user
-- repeat password
-- commande création admin
-- connexion par pseudo
-- editer / supprimer => user, type, faction, card
-- unique faction / type
-- message flash quand création/modif/delete fait
-- ?? list carte visible par tous même non co ???
-- rareté carte
-        https://www.w3schools.com/colors/colors_gradient.asp
-        https://www.w3schools.com/colors/colors_analogous.asp
-- si monstre possible pas de description -> à voir
-- possibilité de choisir lors de création de type si les cartes auront hp/attack/shield
-- ?? Affichage simple des cartes + popup mouseover avec détail de la carte (description ...)
-- delete faction et type ??
-- ajout vérif pour création et update qu'il n'existe pas déjà
-- update user => seul le propiétaire du profil peut modifier le password
-- pagination
-- ajout role et createDate dans l'export user
-- confirme suppression ne marche pas => supprime toujours
-SUITE 
-- export donnée = fonction dans doc php
+Fonctions intégrée : 
 
+CARTES : 
+    - Création ( + option full art)
+    - Modification / pb image (non fonctionnel)
+    - Détail
+    - liste
+    - Suppréssion
 
+TYPE : 
+    - Création ( + couleur pour une carte)
+    - Modification
+    - Détail
+    - List
+    - Suppression
 
+FACTION : 
+    - Création
+    - Modification
+    - Détail
+    - List
+    - Suppression
 
-carte Bunny Bomb un plaisir pour son équipe une horreur pour les autres
+DECK : 
+    - Création
+    - Détail avec les cartes qui le compose
+    - Liste de nos decks
+    - Suppression
+    - Modification du nom et des cartes qui le compose => liste carte du deck et toute les cartes
+
+UTILISATEUR : 
+    - Création
+    - Détail / Profil
+    - Liste des utilisateurs
+    - Suppression
+    - Modification 
+    - Rôle admin => access en plus => création : type, faction, user
+    - Non connecté => access liste carte (non fonctionnel)
+
+EXPORT : 
+    - utilisateur
+    - cartes
+
+ADMIN :
+    mail: adminadmin@gmail.com 
+    mdp: adminadmin
