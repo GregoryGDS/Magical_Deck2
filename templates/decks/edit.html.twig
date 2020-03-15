@@ -1,7 +1,8 @@
 <title>Edit Deck</title>
 
 {{ include('form/form.html.twig')}}
- <a href="{{ path('show-deck', {'id': deck.id}) }}">Retour aux détails du deck</a>
+ <a href="{{ path('show-deck', {'id': deck.id}) }}">Détails du deck</a>
+ <a href="{{ path('list-deck') }}">Liste decks</a>
 
 <h3>Carte du deck</h3>
 <div class="col-lg-12" id='cardsInDeckEdit'>

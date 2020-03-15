@@ -1,3 +1,6 @@
+- certaines partie comme card fait avec make:crud
+- pas de messages d'erreur à cause du reload par ajax 
+- pb description carte si resolution trop grande 
 - liste des cartes access pour tous même non co ?
 - voir pour première co
 - voir date creation nom img carte
@@ -11,8 +14,12 @@
 - btn nav profil
 - seul admin et propiétaire de carte peut modifier carte
 - anonyme peut voir list carte et détail 
+- ajout dans type : posible stat ? (pour formulaire dynamique)
+- entité rareté ajouté mais non fonctionnel
 
 AJOUT
+- modif full art pour rarity ??
+- date de modif dernière modification, pour chaque update
 - gérer msg erreur des formulaire (password / taille img)
 - seul admin a access à la list user
 - loader

@@ -47,7 +47,7 @@
 
                 $('#pageContent').on('click','a', function (e) {
                     e.preventDefault();
-                     $(".loading").css('visibility','visible');
+                    $(".loading").css('visibility','visible');
                     console.log('dans click a');
                     $("#pageContent").load($(this).attr('href'), function() {
                         $(".loading").css('visibility','hidden');
@@ -58,7 +58,7 @@
                 $('#pageContent').on('click','#cardsInStorage .card', function () {
                     let idCard = $(this).find('.idCard_add').val();
                     let idDeck = $(this).find('.idDeck_add').val();
-                     $(".loading").css('visibility','visible');
+                    $(".loading").css('visibility','visible');
                     console.log('dans cardsInStorage, id carte : '+idCard+', id deck :'+ idDeck);
                     $.ajax({
                         type: "GET",
@@ -95,6 +95,7 @@
                         }
                     });
                 });
+
                 $('#pageContent').on('submit', 'form', function (e) {
                     e.preventDefault();
                      $(".loading").css('visibility','visible');
@@ -115,7 +116,35 @@
                             console.log('nok submit');
                         }
                     });
-                });    
+                });
+
+                $('#pageContent').on('submit', 'a.export', function (e) {
+                    e.preventDefault();
+                    console.log()
+                     $(".loading").css('visibility','visible');
+                    $.ajax({
+                        type: "GET",
+                       //xhrFields:{
+                       //    response: 'blob'
+                       //},
+                        url: $(this).attr('href'),
+                        success: function success(response) {
+                            //let fakeButton = document.create('a');
+                            //fakeButton.href = window.URL.createObjectURL(response); // recupère response du controller
+                            //fakeButton.download = 'export.csv';
+                            //document.body.append(fakeButton);
+                            //fakeButton.click();
+                            //fakeButton.remove();
+                            console.log('ok export');
+                            $(".loading").css('visibility','hidden');
+                        },
+                        error:function(err){
+                            console.log('nok submit');
+                        }
+                    });
+                });
+
+
             </script>
         {% endblock %}
     </body>

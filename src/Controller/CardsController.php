@@ -9,8 +9,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Validator\Constraints\DateTime;
+use Symfony\Component\HttpFoundation\File\File;
+use Doctrine\ORM\EntityManagerInterface;
 
 class CardsController extends AbstractController
 {
@@ -88,18 +89,28 @@ class CardsController extends AbstractController
      */
     public function edit(Request $request, Cards $card): Response
     {
+        $image = $card->getImage();
+
+        if($image){
+            $card->setImage(
+                new File($this->getParameter('cards_folder') . '/' . $card->getImage())
+            );
+        }
+
         $form = $this->createForm(CardsType::class, $card);
         $form->handleRequest($request);
         $name = $card->getName();
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('cards_index');
         }
 
         return $this->render('cards/edit.html.twig', [
-            'title' => "Modification de la carte $name",
+            'title' => "Modification de la carte : $name",
             'card' => $card,
             'form' => $form->createView(),
         ]);
