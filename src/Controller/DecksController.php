@@ -120,6 +120,6 @@ class DecksController extends AbstractController
             $this->entityManager->flush();
         }
 
-        return $this->redirectToRoute('deck_index');
+        return $this->redirectToRoute('list-deck');
     }
 }

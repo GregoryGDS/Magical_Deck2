@@ -8,6 +8,7 @@ use App\Repository\TypesRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -78,6 +79,20 @@ class TypeController extends AbstractController
             'type' => $type,
             'form' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/delete_type/{id}", name="delete_type", methods={"DELETE"})
+     */
+    public function delete(Request $request, Types $type): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$type->getId(), $request->request->get('_token'))) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($type);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('list-type');
     }
 
 }

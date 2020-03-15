@@ -1,14 +1,15 @@
 <?php
 
 namespace App\Controller;
+
 use App\Entity\Factions;
 use App\Repository\FactionsRepository;
 use App\Form\FactionType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
-
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Response;
 
 class FactionController extends AbstractController
 {
@@ -80,5 +81,17 @@ class FactionController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+    /**
+     * @Route("faction_delete/{id}", name="faction_delete", methods={"DELETE"})
+     */
+    public function delete(Request $request, Factions $faction): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$faction->getId(), $request->request->get('_token'))) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($faction);
+            $entityManager->flush();
+        }
 
+        return $this->redirectToRoute('list-faction');
+    }
 }

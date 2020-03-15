@@ -32,8 +32,8 @@ class CardsType extends AbstractType
                         "mimeTypes" => "image/*",
                         'mimeTypesMessage' => "Merci de fournir une image :p",
                     ])
-                ]
-
+                ],
+                'required' => false
             ])
             ->add('description', TextareaType::class,[
                 'label' => 'Description de la carte : '

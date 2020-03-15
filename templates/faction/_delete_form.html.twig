@@ -1,0 +1,5 @@
+<form method="post" action="{{ path('faction_delete', {'id': faction.id}) }}" onsubmit="return confirm('Etes-vous sur de vouloir supprimer cette faction ?');">
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ faction.id) }}">
+    <button class="btn">Supprimer</button>
+</form>

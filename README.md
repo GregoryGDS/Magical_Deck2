@@ -1,3 +1,4 @@
+MODIF/ BUG
 - certaines partie comme card fait avec make:crud
 - pas de messages d'erreur à cause du reload par ajax 
 - pb description carte si resolution trop grande 
@@ -16,8 +17,11 @@
 - anonyme peut voir list carte et détail 
 - ajout dans type : posible stat ? (pour formulaire dynamique)
 - entité rareté ajouté mais non fonctionnel
-
+- si image non remplie pour update carte, garde l'ancienne
 AJOUT
+- export user ajout role
+- delete user
+- trie par type et faction
 - modif full art pour rarity ??
 - date de modif dernière modification, pour chaque update
 - gérer msg erreur des formulaire (password / taille img)
@@ -40,10 +44,12 @@ AJOUT
 - delete faction et type ??
 - ajout vérif pour création et update qu'il n'existe pas déjà
 - update user => seul le propiétaire du profil peut modifier le password
-
+- pagination
+- ajout role et createDate dans l'export user
+- confirme suppression ne marche pas => supprime toujours
 SUITE 
 - export donnée = fonction dans doc php
-- pagination
+
 
 
 

@@ -26,15 +26,22 @@
     <div class="col-lg-12" id=''>
         <div class="row">
             {% for cardDeck in cardListDeck %}
+                {% if cardDeck.idCard.fullArt == 1 %} 
+                    {% set backgroundFullCard = "background-image:url('uploads/images/cards/" ~ cardDeck.idCard.image ~ "')" %}
+                    {% set backgroundCard = '' %}
+                {% else %}
+                    {% set backgroundFullCard = "background-color:" ~ cardDeck.idCard.idType.cardColor ~ "" %}
+                    {% set backgroundCard = "background-image:url('uploads/images/cards/" ~ cardDeck.idCard.image ~ "'); border-width: initial; border:1px solid black;" %}
+                {% endif %}
                 <div class="col-lg-2 col-md-4 mb-5">
-                    <div class="card" style="background-color:{{ cardDeck.idCard.idType.cardColor }}">
+                    <div class="card" style= "{{ backgroundFullCard }}">
                     <input class="idCard_add" type="hidden" value='{{ cardDeck.idCard.id }}'>
                     <input class="idDeck_add" type="hidden" value='{{ cardDeck.idDeck.id }}'>
                         <div class="cardHeader">
                             <span class="cardNumber" style="background-color:blue">{{ cardDeck.idCard.cost }}</span>
                             <span>{{ cardDeck.idCard.name }}</span>
                         </div>
-                        <div class="cardImage" style="background-image:url('{{ asset('uploads/images/cards/' ~ cardDeck.idCard.image) }}');" >
+                    <div class="cardImage" style=" {{backgroundCard}}"  >
                         </div>
                         <div class="cardBody">
                             <div>{{ cardDeck.idCard.idType.name }}/{{ cardDeck.idCard.idFaction.name }}</div>

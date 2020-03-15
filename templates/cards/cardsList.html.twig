@@ -4,12 +4,13 @@
 <h1>Liste des cartes disponibles</h1>
 <a href="{{ path('create-card') }}">Créer une nouvelle carte</a>
 
-<a class="export" href="{{ path('export_csv', {'name': 'cards'}) }}" download="export.csv">Exporter les cartes</a>
-
+<a class="export" href="{{ path('export_csv', {'name': 'cards'}) }}" >Exporter les cartes 
+    <input class="export_name" type="hidden" value='allCards'>
+</a>
+{# download="export.csv" #}
 <table class="table">
     <thead>
         <tr>
-            <th>Id</th>
             <th>Images</th>
             <th>Créateur</th>
             <th>Type</th>
@@ -20,7 +21,6 @@
     <tbody>
     {% for card in cards %}
         <tr>
-            <td>{{ card.id }}</td>
             <td>
             {% if card.fullArt == 1 %} 
                 {% set backgroundFullCard = "background-image:url('uploads/images/cards/" ~ card.image ~ "')" %}
