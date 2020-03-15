@@ -2,11 +2,172 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <title>{% block title %}Magical Deck{% endblock %}</title>
+
+        <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css"
+          integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy"
+          crossorigin="anonymous">
+          
+        <link rel="stylesheet" href="css/cards.css">
+        <link rel="stylesheet" href="css/style.css">
+        
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+        {% include "home/navbar.html.twig" %}
+        {% block body %}
+
+
+        <div class="loading">Loading</div>
+
+        <div id="pageContent"> 
+        </div>
+
+
+        {% endblock %}
+
+
+        {% block javascripts %}
+            <script>
+                $('nav .nav-redirect').click(function (e) {
+                    e.preventDefault();
+                    $(".loading").css('visibility','visible');
+                    $('nav a').removeClass('active');
+                    $(this).addClass('active');
+                    $("#pageContent").load($(this).attr('href'), function() {
+                        $(".loading").css('visibility','hidden');
+                    });
+                });
+
+                $('#pageContent').on('click','a', function (e) {
+                    e.preventDefault();
+                    $(".loading").css('visibility','visible');
+                    console.log('dans click a');
+                    $("#pageContent").load($(this).attr('href'), function() {
+                        $(".loading").css('visibility','hidden');
+                    });
+                });
+
+                // ajouter cartes au deck
+                $('#pageContent').on('click','#cardsInStorage .card', function () {
+                    let idCard = $(this).find('.idCard_add').val();
+                    let idDeck = $(this).find('.idDeck_add').val();
+                    $(".loading").css('visibility','visible');
+                    console.log('dans cardsInStorage, id carte : '+idCard+', id deck :'+ idDeck);
+                    $.ajax({
+                        type: "GET",
+                        url: "/addCardDeck/"+idCard+"/"+idDeck,
+                        success: function success(response) {
+                            console.log('ok dans add cardDeck');
+                            $("#pageContent").load("edit-deck/"+idDeck, function() {
+                                $(".loading").css('visibility','hidden');
+                            });
+                        },
+                        error:function(err){
+                            console.log('nok dans add cardDeck');
+                        }
+                    });
+                });
+
+                // supprimer cartes du deck
+                $('#pageContent').on('click','#cardsInDeckEdit .card', function () {
+                    let idCardDeck = $(this).find('.idCardDeck_delete').val();
+                    let idDeck = $(this).find('.idDeck_delete').val();
+                     $(".loading").css('visibility','visible');
+                    console.log('dans cardsInDeckEdit, id carte Deck : '+idCardDeck+', id deck :'+ idDeck);
+                    $.ajax({
+                        type: "GET",
+                        url: "/deleteCardDeck/"+idCardDeck,
+                        success: function success(response) {
+                            console.log('ok dans delete cardDeck');
+                            $("#pageContent").load("edit-deck/"+idDeck, function() {
+                                $(".loading").css('visibility','hidden');
+                            });
+                        },
+                        error:function(err){
+                            console.log('nok dans delete cardDeck');
+                        }
+                    });
+                });
+
+                $('#pageContent').on('submit', 'form', function (e) {
+                    e.preventDefault();
+                     $(".loading").css('visibility','visible');
+                    var form = $(this);
+                    $.ajax({
+                        type: "POST",
+                        url: form.attr('action'),
+                        data: new FormData(this),
+                        contentType : false,
+                        processData: false,
+                        success: function success(response) {
+                            console.log('ok submit');
+                            $("#pageContent").load($('.active').attr('href'), function() {
+                                $(".loading").css('visibility','hidden');
+                            });
+                        },
+                        error:function(err){
+                            console.log('nok submit');
+                        }
+                    });
+                });
+                
+                //export CSV
+                $('#pageContent').on('click', 'a.export', function (e) {
+                    e.preventDefault();
+                    $(".loading").css('visibility','visible');
+                    console.log($(this).attr('href'));
+                    
+                    let export_type = $(this).find('.export_name').val();
+                    console.log(export_type);
+
+                    let  date = new Date();
+                    let  d = date.getDate();
+                    let  m =  date.getMonth();
+                    m += 1;  // JavaScript months are 0-11
+                    let  y = date.getFullYear();
+                    date = d + "-" + m + "-" + y;
+                    
+                    name_export_csv = 'export-'+export_type+'-'+date+'.csv';
+                    console.log(name_export_csv);
+                    $.ajax({
+                        method: "GET",
+                        xhrFields: {
+                            responseType: "blob"
+                        },
+                        url: $(this).attr('href'),
+                        success: function success(response) {
+                            console.log('ok export');
+                            console.log(response);
+                            let fakeButton = document.createElement('a');
+                            fakeButton.href = window.URL.createObjectURL(response); // recupère response du controller
+                            fakeButton.download = name_export_csv ;
+                            document.body.append(fakeButton);
+                            fakeButton.click();
+                            fakeButton.remove();
+                            if (export_type == 'allCards' ) {
+                                let load = "list-card";
+                            }
+                            if (export_type == 'allUsers' ) {
+                                let load = "list-user";
+                            }
+                            console.log('export_type '+export_type+', load : '+load);
+                            $("#pageContent").load(load, function() {
+                                $(".loading").css('visibility','hidden');
+                            });
+                        },
+                        error:function(err){
+                            console.log('nok export');
+                            console.log(err);
+                        }
+                    });
+                });
+
+
+            </script>
+        {% endblock %}
     </body>
 </html>

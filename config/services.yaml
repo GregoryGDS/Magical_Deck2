@@ -4,7 +4,9 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-
+    #si j'appelle cards_folder j'appelle le lien à la racine 
+    # %kernel.project_dir% garantie qu'on a bien la racine du projet
+    cards_folder: '%kernel.project_dir%/public/uploads/images/cards'
 services:
     # default configuration for services in *this* file
     _defaults:

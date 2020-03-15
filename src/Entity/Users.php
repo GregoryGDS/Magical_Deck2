@@ -5,10 +5,12 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UsersRepository")
+ * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
  */
 class Users implements UserInterface
 {
@@ -55,9 +57,17 @@ class Users implements UserInterface
      */
     private $createdDate;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Decks", mappedBy="idUser", orphanRemoval=true)
+     */
+    private $listDecks;
+
     public function __construct()
     {
         $this->listCards = new ArrayCollection();
+        $this->roles = ['ROLE_USER'];
+        $this->listDecks = new ArrayCollection();
+
     }
 
     public function getId(): ?int
@@ -70,8 +80,8 @@ class Users implements UserInterface
         return $this->email;
     }
 
-    public function setEmail(string $email): self
-    {
+    public function setEmail(string $email): self 
+    { 
         $this->email = $email;
 
         return $this;
@@ -94,7 +104,7 @@ class Users implements UserInterface
     {
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
+        //$roles[] = 'ROLE_USER';
 
         return array_unique($roles);
     }
@@ -169,7 +179,7 @@ class Users implements UserInterface
         return $this;
     }
 
-    public function getFirstName(): ?string
+    public function getFirstName(): ?string 
     {
         return $this->firstName;
     }
@@ -181,7 +191,7 @@ class Users implements UserInterface
         return $this;
     }
 
-    public function getLastName(): ?string
+    public function getLastName(): ?string 
     {
         return $this->lastName;
     }
@@ -193,7 +203,7 @@ class Users implements UserInterface
         return $this;
     }
 
-    public function getCreatedDate(): ?\DateTimeInterface
+    public function getCreatedDate(): ?\DateTimeInterface 
     {
         return $this->createdDate;
     }
@@ -203,5 +213,48 @@ class Users implements UserInterface
         $this->createdDate = $createdDate;
 
         return $this;
+    }
+
+    /**
+     * @return Collection|Decks[]
+     */
+    public function getListDecks(): Collection
+    {
+        return $this->listDecks;
+    }
+
+    public function addListDeck(Decks $listDecks): self
+    {
+        if (!$this->listDecks->contains($listDecks)) {
+            $this->listDecks[] = $listDecks;
+            $listDecks->setIdUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeListDeck(Decks $listDecks): self
+    {
+        if ($this->listDecks->contains($listDecks)) {
+            $this->listDecks->removeElement($listDecks);
+            // set the owning side to null (unless already changed)
+            if ($listDecks->getIdUser() === $this) {
+                $listDecks->setIdUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function arrayExport(){
+
+        $exportTab = [
+            "prenom" => $this->getFirstName(),
+            "nom" => $this->getLastName(),
+            "email" => $this->getEmail(),
+            'date_creation'=> $this->getCreatedDate()->format('d-m-Y H:i:s')
+        ];
+        //ajout role
+        return $exportTab;
     }
 }

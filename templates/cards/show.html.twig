@@ -1,0 +1,65 @@
+
+<title>Détail carte</title>
+
+    <h1>Détail de la carte</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ card.id }}</td>
+                <td rowspan='10'><img style="max-height: 500px;" src="{{ asset('uploads/images/cards/' ~ card.image) }}"></td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ card.name }}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ card.description }}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <th>Point de vie</th>
+                <td>{{ card.HP }}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <th>Attack</th>
+                <td>{{ card.attack }}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <th>Shield</th>
+                <td>{{ card.shield }}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <th>Cost</th>
+                <td>{{ card.cost }}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <th>Creator</th>
+                <td>{{ card.getIdCreator.firstName }} {{ card.getIdCreator.lastName }}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <th>Type</th>
+                <td>{{ card.getIdType.name }}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <th>Faction</th>
+                <td>{{ card.getIdFaction.name }}</td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('list-card') }}">Retour à la liste</a>
+
+    <a href="{{ path('edit-card', {'id': card.id}) }}">Modifier</a>
+
+    {{ include('cards/_delete_form.html.twig') }}

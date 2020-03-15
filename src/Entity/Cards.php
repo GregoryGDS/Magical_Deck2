@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -58,6 +60,37 @@ class Cards
      * @ORM\JoinColumn(nullable=false)
      */
     private $id_faction;
+
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $description;
+
+    /**
+     * @ORM\Column(type="string", length=500)
+     */
+    private $image;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\CardDeck", mappedBy="idCard", orphanRemoval=true)
+     */
+    private $cardDecks;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Rarity", inversedBy="idCard")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $rarity;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $fullArt;
+
+    public function __construct()
+    {
+        $this->cardDecks = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -123,7 +156,7 @@ class Cards
 
         return $this;
     }
-
+    
     public function getIdType(): ?Types
     {
         return $this->id_type;
@@ -158,5 +191,101 @@ class Cards
         $this->id_faction = $id_faction;
 
         return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): self
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CardDeck[]
+     */
+    public function getCardDecks(): Collection
+    {
+        return $this->cardDecks;
+    }
+
+    public function addCardDeck(CardDeck $cardDeck): self
+    {
+        if (!$this->cardDecks->contains($cardDeck)) {
+            $this->cardDecks[] = $cardDeck;
+            $cardDeck->setIdCard($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCardDeck(CardDeck $cardDeck): self
+    {
+        if ($this->cardDecks->contains($cardDeck)) {
+            $this->cardDecks->removeElement($cardDeck);
+            // set the owning side to null (unless already changed)
+            if ($cardDeck->getIdCard() === $this) {
+                $cardDeck->setIdCard(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getRarity(): ?Rarity
+    {
+        return $this->rarity;
+    }
+
+    public function setRarity(?Rarity $rarity): self
+    {
+        $this->rarity = $rarity;
+
+        return $this;
+    }
+
+    public function getFullArt(): ?bool
+    {
+        return $this->fullArt;
+    }
+
+    public function setFullArt(bool $fullArt): self
+    {
+        $this->fullArt = $fullArt;
+
+        return $this;
+    }
+
+    public function arrayExport(){
+
+        $exportTab = [
+            "name" => $this->getName(),
+            "cost" => $this->getCost(),
+            "hp" => $this->getHP(),
+            "attack" => $this->getAttack(),
+            "shield" =>$this->getShield(),
+            "description" => $this->getDescription(),
+            "image" => $this->getImage(),
+            "type" => $this->getIdType()->getName(),
+            "faction" => $this->getIdFaction()->getName(),
+            "user" => $this->getIdCreator()->getFirstName().' '.$this->getIdCreator()->getLastName()
+        ];
+        return $exportTab;
     }
 }

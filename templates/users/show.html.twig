@@ -1,0 +1,52 @@
+
+<title>Utilisateur</title>
+
+<h1>Profil de {{ user.firstName }} {{ user.lastName }}</h1>
+<a href="{{ path('list-user') }}">Retour à la liste</a>
+
+<a href="{{ path('edit-user', {'id': user.id}) }}">Modifier</a>
+
+{{ include('users/_delete_form.html.twig') }}
+
+<table class="table">
+    <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ user.id }}</td>
+        </tr>
+        <tr>
+            <th>Email</th>
+            <td>{{ user.email }}</td>
+        </tr>
+        <tr>
+            <th>Roles</th>
+            <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
+        </tr>
+        <tr>
+            <th>Prénom</th>
+            <td>{{ user.firstName }}</td>
+        </tr>
+        <tr>
+            <th>Nom</th>
+            <td>{{ user.lastName }}</td>
+        </tr>
+        <tr>
+            <th>Date de création</th>
+            <td>{{ user.createdDate ? user.createdDate|date('Y-m-d H:i:s') : '' }}</td>
+        </tr>
+        <tr>
+            <th>Mes decks</th>
+            <td>
+                <ul>
+                    {% for  deck in deckList %}
+                        <li>
+                            {{ deck.name}} <a href="{{ path('show-deck', {'id': deck.id}) }}">Détail</a>
+                        </li>
+                    {% else %}
+                        Aucun deck ;-;
+                    {% endfor %}
+                </ul>
+            </td>
+        </tr>
+    </tbody>
+</table>
